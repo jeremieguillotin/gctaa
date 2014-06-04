@@ -32,7 +32,7 @@
         public function setNom($nom) { $this->_nom = $nom; }
         
         public static function liste() {
-            $sql = "SELECT li_idffta, li_code, li_nom FROM GCTAA_ligue ORDER BY li_nom";
+            $sql = "SELECT li_idffta, li_code, li_nom FROM gctaa_ligue ORDER BY li_nom";
             
             // on envoie la requÍte
             $result = mysql_query($sql);
@@ -53,7 +53,7 @@
         }
         
         public static function libelle($code) {
-            $sql = "SELECT li_nom FROM GCTAA_ligue WHERE li_idffta ='".$code."'";
+            $sql = "SELECT li_nom FROM gctaa_ligue WHERE li_idffta ='".$code."'";
             
             // on envoie la requÍte
             $result = mysql_query($sql);

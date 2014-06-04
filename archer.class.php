@@ -78,7 +78,7 @@ class Archer {
     }
     
     public static function listeCategories($licence) {
-        $sql = "SELECT ct_categorie, tt_nom, ct_saison, ct_nom, ct_initiales FROM gctaa_categories, GCTAA_archers_categ, GCTAA_typetir WHERE ct_categorie = ac_categorie and tt_code = ct_type and ac_licence = '$licence' order by ct_saison DESC, ct_type";
+        $sql = "SELECT ct_categorie, tt_nom, ct_saison, ct_nom, ct_initiales FROM gctaa_categories, gctaa_archers_categ, gctaa_typetir WHERE ct_categorie = ac_categorie and tt_code = ct_type and ac_licence = '$licence' order by ct_saison DESC, ct_type";
         // on envoie la requÍte
         $result = mysql_query($sql);
         
