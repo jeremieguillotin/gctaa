@@ -57,7 +57,7 @@ class Archer {
     }
     
     public static function liste() {
-        $sql = "SELECT ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo FROM GCTAA_archers ORDER BY ar_nom";
+        $sql = "SELECT ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo FROM gctaa_archers ORDER BY ar_nom";
         
         // on envoie la requÍte
         $result = mysql_query($sql);
@@ -78,7 +78,7 @@ class Archer {
     }
     
     public static function listeCategories($licence) {
-        $sql = "SELECT ct_categorie, tt_nom, ct_saison, ct_nom, ct_initiales FROM GCTAA_categories, GCTAA_archers_categ, GCTAA_typetir WHERE ct_categorie = ac_categorie and tt_code = ct_type and ac_licence = '$licence' order by ct_saison DESC, ct_type";        
+        $sql = "SELECT ct_categorie, tt_nom, ct_saison, ct_nom, ct_initiales FROM gctaa_categories, GCTAA_archers_categ, GCTAA_typetir WHERE ct_categorie = ac_categorie and tt_code = ct_type and ac_licence = '$licence' order by ct_saison DESC, ct_type";
         // on envoie la requÍte
         $result = mysql_query($sql);
         
@@ -108,7 +108,7 @@ class Archer {
     }
     
     public function insertBDD() {
-        $sql = "INSERT INTO GCTAA_archers (ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo) VALUES ('".$this->licence()."', '".$this->nom()."', '".$this->prenom()."', '".$this->date_naissance()."', '".$this->email()."', '".$this->photo()."')";
+        $sql = "INSERT INTO gctaa_archers (ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo) VALUES ('".$this->licence()."', '".$this->nom()."', '".$this->prenom()."', '".$this->date_naissance()."', '".$this->email()."', '".$this->photo()."')";
         
         // on envoie la requÍte
         $result = mysql_query($sql);
@@ -123,7 +123,7 @@ class Archer {
     
     public static function selectBDD($licence) {
 		// chargement d'un Archer
-		$sql = "SELECT ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo FROM GCTAA_archers WHERE ar_licence='".$licence."'";
+		$sql = "SELECT ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo FROM gctaa_archers WHERE ar_licence='".$licence."'";
         
         // on envoie la requÍte
         $result = mysql_query($sql);
@@ -144,7 +144,7 @@ class Archer {
     
     public static function updateBDD($licence, $archer) {
 		// chargement d'un Archer
-		$sql = "UPDATE GCTAA_archers SET ar_licence = '".$archer->licence()."', ar_nom = '".$archer->nom()."', ar_prenom = '".$archer->prenom()."', ar_date_naissance = '".$archer->date_naissance()."', ar_email = '".$archer->email()."', ar_photo = '".$archer->photo()."' WHERE ar_licence='".$licence."'";
+		$sql = "UPDATE gctaa_archers SET ar_licence = '".$archer->licence()."', ar_nom = '".$archer->nom()."', ar_prenom = '".$archer->prenom()."', ar_date_naissance = '".$archer->date_naissance()."', ar_email = '".$archer->email()."', ar_photo = '".$archer->photo()."' WHERE ar_licence='".$licence."'";
         
         // on envoie la requÍte
         $result = mysql_query($sql);
@@ -159,7 +159,7 @@ class Archer {
 		// suppression d'un archer des effectifs du club
 
 		// on crÈe la requÍte SQL
-		$sql = "DELETE FROM GCTAA_archers WHERE ar_licence = '".$licence."'";
+		$sql = "DELETE FROM gctaa_archers WHERE ar_licence = '".$licence."'";
         
 		$result = mysql_query($sql);
         

@@ -56,7 +56,7 @@
         }
         public static function selectBDD($idconcours) {
             // chargement d'un Club
-            $sql = "SELECT  co_idconcours, co_idclub, co_type, co_saison, co_datedebut, co_datefin, co_desc FROM GCTAA_concours WHERE co_idconcours = ".$idconcours;
+            $sql = "SELECT  co_idconcours, co_idclub, co_type, co_saison, co_datedebut, co_datefin, co_desc FROM gctaa_concours WHERE co_idconcours = ".$idconcours;
             
             // on envoie la requÍte
             $result = mysql_query($sql);
@@ -124,7 +124,7 @@
 
         
         public static function liste() {
-            $sql = "SELECT  co_idconcours, co_idclub, co_type, co_saison, co_datedebut, co_datefin, co_desc FROM GCTAA_concours ORDER BY co_datedebut";
+            $sql = "SELECT  co_idconcours, co_idclub, co_type, co_saison, co_datedebut, co_datefin, co_desc FROM gctaa_concours ORDER BY co_datedebut";
             
             // on envoie la requête
             $result = mysql_query($sql);

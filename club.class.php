@@ -42,7 +42,7 @@
         
         public static function selectBDD($idclub) {
             // chargement d'un Club
-            $sql = "SELECT  cl_idclub ,  cl_nom ,  cl_ville ,  cl_dept ,  cl_ligue ,  cl_logo FROM GCTAA_clubs WHERE cl_idclub = ".$idclub;
+            $sql = "SELECT  cl_idclub ,  cl_nom ,  cl_ville ,  cl_dept ,  cl_ligue ,  cl_logo FROM gctaa_clubs WHERE cl_idclub = ".$idclub;
             
             // on envoie la requÍte
             $result = mysql_query($sql);
@@ -74,7 +74,7 @@
         }
         public static function updateBDD($idclub, $club) {
             // Modification d'un club
-            $sql = "UPDATE GCTAA_clubs SET cl_idclub = ".$club->idclub().", cl_nom = '".$club->nom()."', cl_ville = '".$club->ville()."', cl_dept = '".$club->dept()."', cl_ligue = ".$club->ligue().", cl_logo = '".$club->logo()."' WHERE cl_idclub=".$idclub;
+            $sql = "UPDATE gctaa_clubs SET cl_idclub = ".$club->idclub().", cl_nom = '".$club->nom()."', cl_ville = '".$club->ville()."', cl_dept = '".$club->dept()."', cl_ligue = ".$club->ligue().", cl_logo = '".$club->logo()."' WHERE cl_idclub=".$idclub;
             
             
             // on envoie la requÍte
@@ -89,7 +89,7 @@
             // suppression d'un club
             
             // on crÈe la requÍte SQL
-            $sql = "DELETE FROM GCTAA_clubs WHERE cl_idclub = ".$idclub;
+            $sql = "DELETE FROM gctaa_clubs WHERE cl_idclub = ".$idclub;
             
             $result = mysql_query($sql);
             
@@ -100,7 +100,7 @@
         }
         
         public static function libelle($idclub) {
-            $sql = "SELECT  cl_nom ,  cl_ville FROM GCTAA_clubs WHERE cl_idclub = ".$idclub;
+            $sql = "SELECT  cl_nom ,  cl_ville FROM gctaa_clubs WHERE cl_idclub = ".$idclub;
             
             // on envoie la requÍte
             $result = mysql_query($sql);
@@ -114,7 +114,7 @@
         }
         
         public static function liste() {
-            $sql = "SELECT cl_idclub, cl_nom, cl_ville, cl_dept, cl_ligue, cl_logo FROM GCTAA_clubs ORDER BY cl_ville";
+            $sql = "SELECT cl_idclub, cl_nom, cl_ville, cl_dept, cl_ligue, cl_logo FROM gctaa_clubs ORDER BY cl_ville";
             
             // on envoie la requête
             $result = mysql_query($sql);

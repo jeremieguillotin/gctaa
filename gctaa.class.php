@@ -103,7 +103,7 @@
         public function setOrdre($ordre) { $this->_ordre = $ordre;}
 
         public static function liste() {
-            $sql = "SELECT tt_code, tt_nom, tt_ordre FROM GCTAA_typetir ORDER BY tt_ordre";
+            $sql = "SELECT tt_code, tt_nom, tt_ordre FROM gctaa_typetir ORDER BY tt_ordre";
             
             // on envoie la requÍte
             $result = mysql_query($sql);
@@ -124,7 +124,7 @@
         }
         
         public static function libelle($code) {
-            $sql = "SELECT tt_nom FROM GCTAA_typetir WHERE tt_code ='".$code."'";
+            $sql = "SELECT tt_nom FROM gctaa_typetir WHERE tt_code ='".$code."'";
             
             // on envoie la requÍte
             $result = mysql_query($sql);
@@ -172,9 +172,9 @@
         
         public static function liste($ligue="") {
             if ( $ligue == "" ) {
-                $sql = "SELECT de_iddept, de_nom, de_ligue FROM GCTAA_departement ORDER BY de_iddept";
+                $sql = "SELECT de_iddept, de_nom, de_ligue FROM gctaa_departement ORDER BY de_iddept";
             } else {
-                $sql = "SELECT de_iddept, de_nom, de_ligue FROM GCTAA_departement WHERE de_ligue = ".$ligue." ORDER BY de_iddept";
+                $sql = "SELECT de_iddept, de_nom, de_ligue FROM gctaa_departement WHERE de_ligue = ".$ligue." ORDER BY de_iddept";
             }
             
             // on envoie la requÍte
@@ -197,7 +197,7 @@
         
         
         public static function libelle($code) {
-            $sql = "SELECT de_nom FROM GCTAA_departement WHERE de_iddept ='".$code."'";
+            $sql = "SELECT de_nom FROM gctaa_departement WHERE de_iddept ='".$code."'";
             // on envoie la requÍte
             $result = mysql_query($sql);
             
@@ -210,7 +210,7 @@
         }
         
         public static function getLigue($code) {
-            $sql = "SELECT de_ligue FROM GCTAA_departement WHERE de_iddept ='".$code."'";
+            $sql = "SELECT de_ligue FROM gctaa_departement WHERE de_iddept ='".$code."'";
             // on envoie la requÍte
             $result = mysql_query($sql);
             
@@ -259,7 +259,7 @@
         public function setInitiales($initiales) { $this->_initiales = $initiales;}
 
         public static function liste() {
-            $sql = "SELECT ct_categorie, ct_type, ct_saison, ct_nom, ct_initiales FROM GCTAA_categories ORDER BY ct_saison DESC, ct_type DESC, ct_categorie";
+            $sql = "SELECT ct_categorie, ct_type, ct_saison, ct_nom, ct_initiales FROM gctaa_categories ORDER BY ct_saison DESC, ct_type DESC, ct_categorie";
             
             // on envoie la requÍte
             $result = mysql_query($sql);
