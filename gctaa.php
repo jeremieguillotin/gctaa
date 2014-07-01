@@ -9,16 +9,10 @@
      */
     
     class wp_gctaa{
-        private static $wpdb;
-        private static $wp_queries;
-        
+
         public static $DEBUG=true;
         
-        function wp_gctaa($wpdb, $wp_queries){$this->__construct($wpdb, $wp_queries);}
-        
-        function __construct($wpdb, $wp_queries){
-            self::$wpdb = $wpdb;
-            self::$wp_queries = $wp_queries;
+        function __construct(){
             add_action('init',array(&$this,'init'));
             add_action('admin_menu', array(&$this,'admin_menu'));
             add_action('admin_head',array(&$this,'admin_head'));
@@ -659,6 +653,9 @@ new Control.DatePicker('DATE_FIN', { icon: '../img/calendar.png' , locale: 'fr_F
         }
     }
     }
-    
-    new wp_gctaa($wpdb, $wp_queries);
+	
+    if (class_exists('wp_gctaa')) {
+	   $wp_gctaa = new wp_gctaa();
+	}
+	
     ?>

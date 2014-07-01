@@ -57,6 +57,30 @@ class Archer {
     }
     
     public static function liste() {
+		global $wpdb;
+	 
+		$sql = 'SELECT ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo FROM gctaa_archers ORDER BY ar_nom';
+		$donneesArchers = $wpdb->get_results($sql, ARRAY_A);
+
+		$listeArcher = array();
+		$cpt=-1;
+		
+		if ( $donneesArchers )
+		{
+			foreach ( $donneesArchers as $donneesArcher )
+			{
+				$cpt++;
+				$archer = new Archer($donneesArcher);
+				$listeArcher[$cpt] = $archer;
+			}	
+		}
+		else
+		{
+			 echo 'erreur';
+		}
+ 
+ /*
+	
         $sql = "SELECT ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo FROM gctaa_archers ORDER BY ar_nom";
         
         // on envoie la requÍte
@@ -73,7 +97,7 @@ class Archer {
                 $archer = new Archer($donneesArcher);
                 $listeArcher[$cpt] = $archer;
             }
-        }
+        }*/
         return $listeArcher;
     }
     
@@ -185,17 +209,18 @@ class Archer {
 		$strRetour = $strRetour . '	<tbody>';
         
         $listeArcher = Archer::liste();
-        foreach ($listeArcher as $archer) {
-            $strRetour = $strRetour . '<tr>';
-            $strRetour = $strRetour . '<td>'.$archer->licence().'</td>';
-            $strRetour = $strRetour . '<td>'.$archer->nom().'</td>';
-            $strRetour = $strRetour . '<td>'.$archer->prenom().'</td>';
-            $strRetour = $strRetour . '<td>'.Util::JJMMAAAA($archer->date_naissance()).'</td>';
-            $strRetour = $strRetour . '<td>'.$archer->email().'</td>';
-            $strRetour = $strRetour . '<td><form name="form3" method="post" action="?page=ficheArcher"><input type="hidden" name="'.$hidden_field_name.'" value="A"><input type="hidden" name="licence" maxlength="7" size="7" value="'.$archer->licence().'" /><div class="btn-group"><button class="btn" type="submit" name="affiche"><i class="icon-user"></i></button><button class="btn" type="submit" name="modif"><i class="icon-pencil"></i></button><button class="btn" type="submit" name="supprime" onclick="javascript:check=confirm( \'Effacer cet Archer ? \');if(check==false) return false;"><i class="icon-trash"></i></button></div></form></td>';
-            $strRetour = $strRetour . '</tr>';
-        }
-        
+
+			foreach ($listeArcher as $archer) {
+				$strRetour = $strRetour . '<tr>';
+				$strRetour = $strRetour . '<td>'.$archer->licence().'</td>';
+				$strRetour = $strRetour . '<td>'.$archer->nom().'</td>';
+				$strRetour = $strRetour . '<td>'.$archer->prenom().'</td>';
+				$strRetour = $strRetour . '<td>'.Util::JJMMAAAA($archer->date_naissance()).'</td>';
+				$strRetour = $strRetour . '<td>'.$archer->email().'</td>';
+				$strRetour = $strRetour . '<td><form name="form3" method="post" action="?page=ficheArcher"><input type="hidden" name="'.$hidden_field_name.'" value="A"><input type="hidden" name="licence" maxlength="7" size="7" value="'.$archer->licence().'" /><div class="btn-group"><button class="btn" type="submit" name="affiche"><i class="icon-user"></i></button><button class="btn" type="submit" name="modif"><i class="icon-pencil"></i></button><button class="btn" type="submit" name="supprime" onclick="javascript:check=confirm( \'Effacer cet Archer ? \');if(check==false) return false;"><i class="icon-trash"></i></button></div></form></td>';
+				$strRetour = $strRetour . '</tr>';
+			}
+
 		$strRetour = $strRetour . '</tbody></table>';
 		echo $strRetour;
 	}
