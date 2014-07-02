@@ -102,21 +102,21 @@ class Archer {
     }
     
     public static function listeCategories($licence) {
+		global $wpdb;
         $sql = "SELECT ct_categorie, tt_nom, ct_saison, ct_nom, ct_initiales FROM gctaa_categories, gctaa_archers_categ, gctaa_typetir WHERE ct_categorie = ac_categorie and tt_code = ct_type and ac_licence = '$licence' order by ct_saison DESC, ct_type";
         // on envoie la requÍte
-        $result = mysql_query($sql);
-        
-        if (!$result) {
-            echo mysql_error();
+        $donneesCategories = $wpdb -> get_results($sql, ARRAY_A);
+        $listeCategories = array();  
+		$cpt=-1;
+        if ($donneesCategories) {
+			foreach ( $donneesCategories as $donneesCategorie )
+			{
+				$cpt++;
+                $listeCategories[$cpt] = $donneesCategorie;
+			}	
         } else {
-            $cpt=-1;
-            $listeCategories = array();
-            while($donnees = mysql_fetch_assoc($result))
-            {
-                $cpt++;
-                $listeCategories[$cpt] = $donnees;
-            }
-        }
+			echo 'Erreur';
+		}
         return $listeCategories;
     }
     
@@ -146,7 +146,19 @@ class Archer {
 	}
     
     public static function selectBDD($licence) {
+		global $wpdb;
 		// chargement d'un Archer
+		$sql = "SELECT ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo FROM gctaa_archers WHERE ar_licence='".$licence."'";
+        $donneesArcher = $wpdb->get_row($sql, ARRAY_A);
+        
+		if (!$donneesArcher) {
+            echo 'Erreur';
+		} else {
+			$archer = new Archer($donneesArcher);
+			return $archer;
+		}
+		return null;
+		/*// chargement d'un Archer
 		$sql = "SELECT ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo FROM gctaa_archers WHERE ar_licence='".$licence."'";
         
         // on envoie la requÍte
@@ -162,7 +174,7 @@ class Archer {
 				return $archer;
 			}
 		}
-		return null;
+		return null;*/
 	}
     
     

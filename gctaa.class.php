@@ -124,16 +124,14 @@
         }
         
         public static function libelle($code) {
+			global $wpdb;
             $sql = "SELECT tt_nom FROM gctaa_typetir WHERE tt_code ='".$code."'";
-            
             // on envoie la requÍte
-            $result = mysql_query($sql);
-            
-            if (!$result) {
+            $result = $wpdb->get_var($sql);            
+            if ($result) {
                 return $code;
             } else {
-                $donneesTypeTir = mysql_fetch_assoc($result);
-                return $donneesTypeTir[tt_nom];
+                return $result;
             }
         }
         
@@ -171,55 +169,47 @@
         public function setLigue($ligue) { $this->_ligue = $ligue; }
         
         public static function liste($ligue="") {
-            if ( $ligue == "" ) {
+            global $wpdb;
+	 
+			if ( $ligue == "" ) {
                 $sql = "SELECT de_iddept, de_nom, de_ligue FROM gctaa_departement ORDER BY de_iddept";
             } else {
                 $sql = "SELECT de_iddept, de_nom, de_ligue FROM gctaa_departement WHERE de_ligue = ".$ligue." ORDER BY de_iddept";
             }
-            
-            // on envoie la requÍte
-            $result = mysql_query($sql);
-            
-            if (!$result) {
-                echo mysql_error();
-            } else {
-                $cpt=-1;
-                $listeDepartement = array();
-                while($donneesDepartement = mysql_fetch_assoc($result))
-                {
-                    $cpt++;
+			$donneesDepartements = $wpdb->get_results($sql, ARRAY_A);
+
+			$listeDepartement = array();
+			$cpt=-1;
+			
+			if ( $donneesDepartements )
+			{
+				foreach ( $donneesDepartements as $donneesDepartement )
+				{
+					$cpt++;
                     $departement = new Departement($donneesDepartement);
                     $listeDepartement[$cpt] = $departement;
-                }
-            }
+				}	
+			}
+			else
+			{
+				 echo 'erreur';
+			}
             return $listeDepartement;
         }
         
         
         public static function libelle($code) {
+			global $wpdb;
             $sql = "SELECT de_nom FROM gctaa_departement WHERE de_iddept ='".$code."'";
             // on envoie la requÍte
-            $result = mysql_query($sql);
-            
-            if (!$result) {
-                return $code;
-            } else {
-                $donnees = mysql_fetch_assoc($result);
-                return $donnees[de_nom];
-            }
+            return $result = $wpdb->get_var($sql);
         }
         
         public static function getLigue($code) {
+			global $wpdb;
             $sql = "SELECT de_ligue FROM gctaa_departement WHERE de_iddept ='".$code."'";
             // on envoie la requÍte
-            $result = mysql_query($sql);
-            
-            if (!$result) {
-                return 0;
-            } else {
-                $donnees = mysql_fetch_assoc($result);
-                return $donnees[de_ligue];
-            }
+            return $result = $wpdb->get_var($sql);
         }
     }
     
@@ -259,24 +249,28 @@
         public function setInitiales($initiales) { $this->_initiales = $initiales;}
 
         public static function liste() {
-            $sql = "SELECT ct_categorie, ct_type, ct_saison, ct_nom, ct_initiales FROM gctaa_categories ORDER BY ct_saison DESC, ct_type DESC, ct_categorie";
-            
-            // on envoie la requÍte
-            $result = mysql_query($sql);
-            
-            if (!$result) {
-                echo mysql_error();
-            } else {
-                $cpt=-1;
-                $listeCategorie = array();
-                while($donneesCategorie = mysql_fetch_assoc($result))
-                {
-                    $cpt++;
-                    $categorie = new Categorie($donneesCategorie);
-                    $listeCategorie[$cpt] = $categorie;
-                }
-            }
-            return $listeCategorie;
+			global $wpdb;
+		 
+			$sql = "SELECT ct_categorie, ct_type, ct_saison, ct_nom, ct_initiales FROM gctaa_categories ORDER BY ct_saison DESC, ct_type DESC, ct_categorie";
+			$donneesCategories = $wpdb->get_results($sql, ARRAY_A);
+
+			$listeCategorie = array();
+			$cpt=-1;
+			
+			if ( $donneesCategories )
+			{
+				foreach ( $donneesCategories as $donneesCategorie )
+				{
+					$cpt++;
+					$categorie = new Categorie($donneesCategorie);
+					$listeCategorie[$cpt] = $categorie;
+				}	
+			}
+			else
+			{
+				 echo 'erreur';
+			}
+			return $listeCategorie;
         }
         
     }

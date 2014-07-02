@@ -102,12 +102,7 @@
             
             // on crÈe la requÍte SQL
             $sql = "DELETE FROM gctaa_concours WHERE co_idconcours = ".$idconcours;
-            
-            $result = mysql_query($sql);
-            
-            if (!$result) {
-                return mysql_error(). " - " . $sql;
-            }
+			$wpdb->query($sql);
             return "";
         }
            
@@ -124,29 +119,31 @@
 
         
         public static function liste() {
+			global $wpdb;
             $sql = "SELECT  co_idconcours, co_idclub, co_type, co_saison, co_datedebut, co_datefin, co_desc FROM gctaa_concours ORDER BY co_datedebut";
-            
             // on envoie la requête
-            $result = mysql_query($sql);
-            
-            if (!$result) {
-                echo mysql_error();
-            } else {
-                $cpt=-1;
-                $listeConcours = array();
-                while($donneesConcours = mysql_fetch_assoc($result))
-                {
-                    $cpt++;
+            $donneesConcours = $wpdb->get_results($sql, ARRAY_A);
+			$listeConcour = array();
+			$cpt = -1;
+            if ( $donneesConcours )
+			{
+				foreach ( $donneesConcours as $donneesConcour )
+				{
+					$cpt++;
                     $concours = new Concours($donneesConcours);
                     $listeConcours[$cpt] = $concours;
-                }
-            }
+				}	
+			}
+			else
+			{
+				 echo 'erreur';
+			}
             return $listeConcours;
         }
         
         function afficheListe() {
             $hidden_field_name = 'GCTAA';
-            $strRetour = $strRetour . '<table class="table table-bordered table-striped table-condensed table-hover">';
+            $strRetour = '<table class="table table-bordered table-striped table-condensed table-hover">';
             $strRetour = $strRetour . '	<thead>';
             $strRetour = $strRetour . '	<tr>';
             $strRetour = $strRetour . '		<th>Id</th>';

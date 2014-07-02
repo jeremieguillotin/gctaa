@@ -98,22 +98,24 @@
                 }
             }
             $wp_gctaa->admin_affichemenupage("btn-small");
-            
-            if ( $info != "" ) {
-                echo '<div class="alert alert-block alert-info">';
-                echo '  <button type="button" class="close" data-dismiss="alert">&times;</button>';
-                echo '  <h4>Info</h4>';
-                echo $info;
-                echo '</div>';
+            if(!empty($info)){
+				if ( $info != "" ) {
+					echo '<div class="alert alert-block alert-info">';
+					echo '  <button type="button" class="close" data-dismiss="alert">&times;</button>';
+					echo '  <h4>Info</h4>';
+					echo $info;
+					echo '</div>';
+				}
+			}
+			if(!empty($erreur)){
+				if ( $erreur != "" ) {
+					echo '<div class="alert alert-block alert-error">';
+					echo '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+					echo '<h4>Warning!</h4>';
+					echo $erreur;
+					echo '</div>';
+				}
             }
-            if ( $erreur != "" ) {
-                echo '<div class="alert alert-block alert-error">';
-                echo '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-                echo '<h4>Warning!</h4>';
-                echo $erreur;
-                echo '</div>';
-            }
-            
             
             
             //Affichage du contenu selon $contenuPage
@@ -126,7 +128,7 @@
                     echo '<div class="row-fluid">';
                     
                     echo '<div class="span2">';
-                    echo '<img src="' . $photo . '" class="img-polaroid">';
+                    echo '<img src="./wordpress/wp-content/plugins/gctaa/images/' . $photo . '" class="img-polaroid">';
                     echo '</div>';
                     
                     echo '<div class="span10">';
@@ -288,7 +290,6 @@
                     $licence = $nvLicence;
                 } else {
                     $contenuPage="AjoutArcher";
-                    
                 }
             } else {
                 $contenuPage="AjoutArcher";
@@ -300,21 +301,24 @@
         
         echo '<div class="wrap" id="gctaa">';
         $wp_gctaa->admin_affichemenupage("btn-small");
-        
-        if ( $info != "" ) {
-            echo '<div class="alert alert-block alert-info">';
-            echo '  <button type="button" class="close" data-dismiss="alert">&times;</button>';
-            echo '  <h4>Info</h4>';
-            echo $info;
-            echo '</div>';
-        }
-        if ( $erreur != "" ) {
-            echo '<div class="alert alert-block alert-error">';
-            echo '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-            echo '<h4>Erreur !</h4>';
-            echo $erreur;
-            echo '</div>';
-        }
+        if( !empty($info)){
+			if ( $info != "" ) {
+				echo '<div class="alert alert-block alert-info">';
+				echo '  <button type="button" class="close" data-dismiss="alert">&times;</button>';
+				echo '  <h4>Info</h4>';
+				echo $info;
+				echo '</div>';
+			}
+		}
+		if( !empty($erreur)){
+			if ( $erreur != "" ) {
+				echo '<div class="alert alert-block alert-error">';
+				echo '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+				echo '<h4>Erreur !</h4>';
+				echo $erreur;
+				echo '</div>';
+			}
+		}
         
         
         

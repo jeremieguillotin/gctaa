@@ -32,38 +32,34 @@
         public function setNom($nom) { $this->_nom = $nom; }
         
         public static function liste() {
-            $sql = "SELECT li_idffta, li_code, li_nom FROM gctaa_ligue ORDER BY li_nom";
-            
-            // on envoie la requÍte
-            $result = mysql_query($sql);
-            
-            if (!$result) {
-                echo mysql_error();
-            } else {
-                $cpt=-1;
-                $listeLigue = array();
-                while($donneesLigue = mysql_fetch_assoc($result))
-                {
-                    $cpt++;
-                    $ligue = new Ligue($donneesLigue);
-                    $listeLigue[$cpt] = $ligue;
-                }
-            }
-            return $listeLigue;
-        }
+			global $wpdb;
+		 
+			$sql = 'SELECT li_idffta, li_code, li_nom FROM gctaa_ligue ORDER BY li_nom';
+			$donneesLigues = $wpdb->get_results($sql, ARRAY_A);
+
+			$listeLigues = array();
+			$cpt=-1;
+			
+			if ( $donneesLigues )
+			{
+				foreach ( $donneesLigues as $donneesLigue )
+				{
+					$cpt++;
+					$ligue = new Ligue($donneesLigue);
+					$listeLigue[$cpt] = $ligue;
+				}	
+			}
+			else
+			{
+				 echo 'erreur';
+			}
+			return $listeLigue;
+		}
         
         public static function libelle($code) {
+			global $wpdb;
             $sql = "SELECT li_nom FROM gctaa_ligue WHERE li_idffta ='".$code."'";
-            
-            // on envoie la requÍte
-            $result = mysql_query($sql);
-            
-            if (!$result) {
-                return $code;
-            } else {
-                $donneesLigue = mysql_fetch_assoc($result);
-                return $donneesLigue[li_nom];
-            }
+            return $result = $wpdb->get_var($sql);
         }
         
         public static function afficheListeLigue() {
@@ -80,10 +76,7 @@
             $strRetour = $strRetour . '	</tr>';
             $strRetour = $strRetour . '	</thead>';
             $strRetour = $strRetour . '	<tbody>';
-            
-            
-            
-            
+                
             $listeLigue = Ligue::liste();
             $cpt=0;
             foreach ($listeLigue as $ligue) {
@@ -105,9 +98,6 @@
                 $strDept=str_replace('##',', ',$strDept);
                 $strDept=str_replace('#','',$strDept);
                 $strRetour = $strRetour . '<td>'.$strDept.'</td>';
-                
-                
-                
                 
                 $strRetour = $strRetour . '<td> TAF </td>';
                 $strRetour = $strRetour . '<td> TAF </td>';

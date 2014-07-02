@@ -99,38 +99,40 @@
             return "";
         }
         
-        public static function libelle($idclub) {
-            $sql = "SELECT  cl_nom ,  cl_ville FROM gctaa_clubs WHERE cl_idclub = ".$idclub;
+        public static function libelle($idclub){
+			global $wpdb;
+            $sql = "SELECT  cl_nom ,  cl_ville FROM gctaa_clubs WHERE cl_idclub = '".$idclub."'";
             
             // on envoie la requÍte
-            $result = mysql_query($sql);
+            $result = $wpdb->get_row($sql, ARRAY_A);
             
             if (!$result) {
                 return $idclub;
             } else {
-                $donneesClub = mysql_fetch_assoc($result);
-                return $donneesClub[cl_nom] . " (" . $donneesClub[cl_ville] . ")";
+                return $result['cl_nom'] . " (" . $result['cl_ville'] . ")";
             }
         }
         
         public static function liste() {
+			global $wpdb;
             $sql = "SELECT cl_idclub, cl_nom, cl_ville, cl_dept, cl_ligue, cl_logo FROM gctaa_clubs ORDER BY cl_ville";
-            
             // on envoie la requête
-            $result = mysql_query($sql);
-            
-            if (!$result) {
-                echo mysql_error();
-            } else {
-                $cpt=-1;
-                $listeClub = array();
-                while($donneesClub = mysql_fetch_assoc($result))
-                {
-                    $cpt++;
+            $donneesClubs = $wpdb->get_results($sql, ARRAY_A);
+			$listeClub = array();
+			$cpt = -1;
+            if ( $donneesClubs )
+			{
+				foreach ( $donneesClubs as $donneesClub )
+				{
+					$cpt++;
                     $club = new Club($donneesClub);
                     $listeClub[$cpt] = $club;
-                }
-            }
+				}	
+			}
+			else
+			{
+				 echo 'erreur';
+			}
             return $listeClub;
         }
         
@@ -143,9 +145,9 @@
             echo "Logo : ".$this->logo()."<br />";
         }
         
-        public function afficheListeClubs() {
+        public function afficheListeClubs() {	
             $hidden_field_name = 'GCTAA';
-            $strRetour = $strRetour . '<table class="table table-bordered table-striped table-condensed table-hover">';
+            $strRetour = '<table class="table table-bordered table-striped table-condensed table-hover">';
             $strRetour = $strRetour . '	<thead>';
             $strRetour = $strRetour . '	<tr>';
             $strRetour = $strRetour . '		<th>ID Club</th>';
@@ -201,7 +203,7 @@
             echo '	</thead>';
             echo '	<tbody>';
             
-            //$line = fgets ($file);
+            // $line = fgets ($file);
             while (!feof ($file) and (Util::stripos($line,'[strong]Site[/strong]') == 0)) {
                 $line = fgets ($file);
                 $line = trim(str_replace('<','[',str_replace('>',']',$line)));
