@@ -145,7 +145,7 @@
             echo "Logo : ".$this->logo()."<br />";
         }
         
-        public function afficheListeClubs() {	
+        public static function afficheListeClubs() {
             $hidden_field_name = 'GCTAA';
             $strRetour = '<table class="table table-bordered table-striped table-condensed table-hover">';
             $strRetour = $strRetour . '	<thead>';

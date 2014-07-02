@@ -79,25 +79,6 @@ class Archer {
 			 echo 'erreur';
 		}
  
- /*
-	
-        $sql = "SELECT ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo FROM gctaa_archers ORDER BY ar_nom";
-        
-        // on envoie la requÍte
-        $result = mysql_query($sql);
-        
-        if (!$result) {
-            echo mysql_error();
-        } else {
-            $cpt=-1;
-            $listeArcher = array();
-            while($donneesArcher = mysql_fetch_assoc($result))
-            {
-                $cpt++;
-                $archer = new Archer($donneesArcher);
-                $listeArcher[$cpt] = $archer;
-            }
-        }*/
         return $listeArcher;
     }
     
@@ -158,23 +139,6 @@ class Archer {
 			return $archer;
 		}
 		return null;
-		/*// chargement d'un Archer
-		$sql = "SELECT ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo FROM gctaa_archers WHERE ar_licence='".$licence."'";
-        
-        // on envoie la requÍte
-        $result = mysql_query($sql);
-        
-		if (!$result) {
-            echo mysql_error();
-		} else {
-			$cpt=0;
-			if ($donneesArcher = mysql_fetch_assoc($result))
-			{
-				$archer = new Archer($donneesArcher);
-				return $archer;
-			}
-		}
-		return null;*/
 	}
     
     

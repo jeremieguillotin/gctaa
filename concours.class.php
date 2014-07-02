@@ -130,7 +130,7 @@
 				foreach ( $donneesConcours as $donneesConcour )
 				{
 					$cpt++;
-                    $concours = new Concours($donneesConcours);
+                    $concours = new Concours($donneesConcour);
                     $listeConcours[$cpt] = $concours;
 				}	
 			}
@@ -141,7 +141,7 @@
             return $listeConcours;
         }
         
-        function afficheListe() {
+        public static function afficheListe() {
             $hidden_field_name = 'GCTAA';
             $strRetour = '<table class="table table-bordered table-striped table-condensed table-hover">';
             $strRetour = $strRetour . '	<thead>';
