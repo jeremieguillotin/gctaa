@@ -41,19 +41,7 @@
         public function setDatedebut($date) { $this->_datedebut = $date; }
         public function setDatefin($date) { $this->_datefin = $date; }
         public function setDesc($desc) { $this->_desc = $desc; }
-        
-        public static function createBDD() {
-            // Création de la table CONCOURS
-            $sql = "CREATE TABLE IF NOT EXISTS gctaa_concours (co_idconcours int(11) NOT NULL, co_idclub int(11) NOT NULL, co_type varchar(1) CHARACTER SET latin1 NOT NULL, co_saison int(11) NOT NULL, co_datedebut date NOT NULL, co_datefin date NOT NULL, PRIMARY KEY (co_idconcours)) DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
-            
-            // on envoie la requÍte
-            $result = mysql_query($sql);
-            
-            if (!$result) {
-                return mysql_error(). " - " . $sql;
-            }
-            return "";
-        }
+
         public static function selectBDD($idconcours) {
             // chargement d'un Club
             $sql = "SELECT  co_idconcours, co_idclub, co_type, co_saison, co_datedebut, co_datefin, co_desc FROM gctaa_concours WHERE co_idconcours = ".$idconcours;
@@ -110,7 +98,8 @@
         public function ajouteDepart(Depart $depart) {
             // fonction d'ajout d'un depart dans un concours
             self::$_listeDeparts[self::$_nbDeparts] =
-			array( 'numero' => $depart->numero(),
+			array('idconcours' => $depart->idconcours(),
+                  'numero' => $depart->numero(),
                   'date_debut' => $depart->date_debut(),
                   'heure_debut' => $depart->heure_debut() );
             self::$_nbDeparts++;

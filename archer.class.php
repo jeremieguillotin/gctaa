@@ -55,11 +55,11 @@ class Archer {
         }
         return $annees;
     }
-    
+
     public static function liste() {
 		global $wpdb;
 	 
-		$sql = 'SELECT ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo FROM gctaa_archers ORDER BY ar_nom';
+		$sql = "SELECT ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo FROM " . $wpdb->prefix . "gctaa_archers ORDER BY ar_nom";
 		$donneesArchers = $wpdb->get_results($sql, ARRAY_A);
 
 		$listeArcher = array();
@@ -84,7 +84,7 @@ class Archer {
     
     public static function listeCategories($licence) {
 		global $wpdb;
-        $sql = "SELECT ct_categorie, tt_nom, ct_saison, ct_nom, ct_initiales FROM gctaa_categories, gctaa_archers_categ, gctaa_typetir WHERE ct_categorie = ac_categorie and tt_code = ct_type and ac_licence = '$licence' order by ct_saison DESC, ct_type";
+        $sql = "SELECT ct_categorie, tt_nom, ct_saison, ct_nom, ct_initiales FROM " . $wpdb->prefix . "gctaa_categories, " . $wpdb->prefix . "gctaa_archers_categ, " . $wpdb->prefix . "gctaa_typetir WHERE ct_categorie = ac_categorie and tt_code = ct_type and ac_licence = '$licence' order by ct_saison DESC, ct_type";
         // on envoie la requÍte
         $donneesCategories = $wpdb -> get_results($sql, ARRAY_A);
         $listeCategories = array();  
@@ -113,7 +113,7 @@ class Archer {
     }
     
     public function insertBDD() {
-        $sql = "INSERT INTO gctaa_archers (ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo) VALUES ('".$this->licence()."', '".$this->nom()."', '".$this->prenom()."', '".$this->date_naissance()."', '".$this->email()."', '".$this->photo()."')";
+        $sql = "INSERT INTO " . $wpdb->prefix . "gctaa_archers (ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo) VALUES ('".$this->licence()."', '".$this->nom()."', '".$this->prenom()."', '".$this->date_naissance()."', '".$this->email()."', '".$this->photo()."')";
         
         // on envoie la requÍte
         $result = mysql_query($sql);
@@ -129,7 +129,7 @@ class Archer {
     public static function selectBDD($licence) {
 		global $wpdb;
 		// chargement d'un Archer
-		$sql = "SELECT ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo FROM gctaa_archers WHERE ar_licence='".$licence."'";
+		$sql = "SELECT ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo FROM " . $wpdb->prefix . "gctaa_archers WHERE ar_licence='".$licence."'";
         $donneesArcher = $wpdb->get_row($sql, ARRAY_A);
         
 		if (!$donneesArcher) {
@@ -144,7 +144,7 @@ class Archer {
     
     public static function updateBDD($licence, $archer) {
 		// chargement d'un Archer
-		$sql = "UPDATE gctaa_archers SET ar_licence = '".$archer->licence()."', ar_nom = '".$archer->nom()."', ar_prenom = '".$archer->prenom()."', ar_date_naissance = '".$archer->date_naissance()."', ar_email = '".$archer->email()."', ar_photo = '".$archer->photo()."' WHERE ar_licence='".$licence."'";
+		$sql = "UPDATE " . $wpdb->prefix . "gctaa_archers SET ar_licence = '".$archer->licence()."', ar_nom = '".$archer->nom()."', ar_prenom = '".$archer->prenom()."', ar_date_naissance = '".$archer->date_naissance()."', ar_email = '".$archer->email()."', ar_photo = '".$archer->photo()."' WHERE ar_licence='".$licence."'";
         
         // on envoie la requÍte
         $result = mysql_query($sql);
@@ -159,7 +159,7 @@ class Archer {
 		// suppression d'un archer des effectifs du club
 
 		// on crÈe la requÍte SQL
-		$sql = "DELETE FROM gctaa_archers WHERE ar_licence = '".$licence."'";
+		$sql = "DELETE FROM " . $wpdb->prefix . "gctaa_archers WHERE ar_licence = '".$licence."'";
         
 		$result = mysql_query($sql);
         

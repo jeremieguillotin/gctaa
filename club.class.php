@@ -17,12 +17,7 @@
                 $method = 'set'.ucfirst($key);
                 if (method_exists($this, $method)) {
                     $this->$method($value);
-                    //echo $method . "(" . $value . ") <br />";
-                } else {
-                    //echo $method . "(" . $value . ") KO <br />";
-                }
-                
-                
+                } 
             }
         }
         
@@ -39,10 +34,10 @@
         public function setLogo($logo) { $this->_logo = $logo; }
         public function setDept($dept) { $this->_dept = $dept; }
         public function setLigue($ligue) { $this->_ligue =$ligue; }
-        
+
         public static function selectBDD($idclub) {
             // chargement d'un Club
-            $sql = "SELECT  cl_idclub ,  cl_nom ,  cl_ville ,  cl_dept ,  cl_ligue ,  cl_logo FROM gctaa_clubs WHERE cl_idclub = ".$idclub;
+            $sql = "SELECT  cl_idclub ,  cl_nom ,  cl_ville ,  cl_dept ,  cl_ligue ,  cl_logo FROM " . $wpdb->prefix . "gctaa_clubs WHERE cl_idclub = ".$idclub;
             
             // on envoie la requÍte
             $result = mysql_query($sql);
@@ -61,7 +56,7 @@
         }
         public function insertBDD() {
             
-            $sql = "INSERT INTO gctaa_clubs (cl_idclub, cl_nom, cl_ville, cl_dept, cl_ligue, cl_logo) VALUES (".$this->idclub().", '".$this->nom()."', '".$this->ville()."', '".$this->dept()."', ".$this->ligue().", '".$this->logo()."')";
+            $sql = "INSERT INTO " . $wpdb->prefix . "gctaa_clubs (cl_idclub, cl_nom, cl_ville, cl_dept, cl_ligue, cl_logo) VALUES (".$this->idclub().", '".$this->nom()."', '".$this->ville()."', '".$this->dept()."', ".$this->ligue().", '".$this->logo()."')";
             // on envoie la requÍte
             $result = mysql_query($sql);
             
@@ -74,7 +69,7 @@
         }
         public static function updateBDD($idclub, $club) {
             // Modification d'un club
-            $sql = "UPDATE gctaa_clubs SET cl_idclub = ".$club->idclub().", cl_nom = '".$club->nom()."', cl_ville = '".$club->ville()."', cl_dept = '".$club->dept()."', cl_ligue = ".$club->ligue().", cl_logo = '".$club->logo()."' WHERE cl_idclub=".$idclub;
+            $sql = "UPDATE " . $wpdb->prefix . "gctaa_clubs SET cl_idclub = ".$club->idclub().", cl_nom = '".$club->nom()."', cl_ville = '".$club->ville()."', cl_dept = '".$club->dept()."', cl_ligue = ".$club->ligue().", cl_logo = '".$club->logo()."' WHERE cl_idclub=".$idclub;
             
             
             // on envoie la requÍte
@@ -89,7 +84,7 @@
             // suppression d'un club
             
             // on crÈe la requÍte SQL
-            $sql = "DELETE FROM gctaa_clubs WHERE cl_idclub = ".$idclub;
+            $sql = "DELETE FROM " . $wpdb->prefix . "gctaa_clubs WHERE cl_idclub = ".$idclub;
             
             $result = mysql_query($sql);
             
@@ -101,7 +96,7 @@
         
         public static function libelle($idclub){
 			global $wpdb;
-            $sql = "SELECT  cl_nom ,  cl_ville FROM gctaa_clubs WHERE cl_idclub = '".$idclub."'";
+            $sql = "SELECT  cl_nom ,  cl_ville FROM " . $wpdb->prefix . "gctaa_clubs WHERE cl_idclub = '".$idclub."'";
             
             // on envoie la requÍte
             $result = $wpdb->get_row($sql, ARRAY_A);
@@ -115,7 +110,7 @@
         
         public static function liste() {
 			global $wpdb;
-            $sql = "SELECT cl_idclub, cl_nom, cl_ville, cl_dept, cl_ligue, cl_logo FROM gctaa_clubs ORDER BY cl_ville";
+            $sql = "SELECT cl_idclub, cl_nom, cl_ville, cl_dept, cl_ligue, cl_logo FROM " . $wpdb->prefix . "gctaa_clubs ORDER BY cl_ville";
             // on envoie la requête
             $donneesClubs = $wpdb->get_results($sql, ARRAY_A);
 			$listeClub = array();
@@ -258,7 +253,7 @@
             }
             
             $reqInsert = str_replace(");(", "), (", $reqInsert);
-            $reqInsert = "INSERT INTO gctaa_clubs (cl_idclub, cl_nom, cl_ville, cl_dept, cl_ligue, cl_logo) VALUES " . $reqInsert;
+            $reqInsert = "INSERT INTO " . $wpdb->prefix . "gctaa_clubs (cl_idclub, cl_nom, cl_ville, cl_dept, cl_ligue, cl_logo) VALUES " . $reqInsert;
             
             $result = mysql_query($reqInsert);
             

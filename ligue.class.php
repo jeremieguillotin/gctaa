@@ -34,7 +34,7 @@
         public static function liste() {
 			global $wpdb;
 		 
-			$sql = 'SELECT li_idffta, li_code, li_nom FROM gctaa_ligue ORDER BY li_nom';
+			$sql = "SELECT li_idffta, li_code, li_nom FROM " . $wpdb->prefix . "gctaa_ligue ORDER BY li_nom";
 			$donneesLigues = $wpdb->get_results($sql, ARRAY_A);
 
 			$listeLigues = array();
@@ -58,7 +58,7 @@
         
         public static function libelle($code) {
 			global $wpdb;
-            $sql = "SELECT li_nom FROM gctaa_ligue WHERE li_idffta ='".$code."'";
+            $sql = "SELECT li_nom FROM " . $wpdb->prefix . "gctaa_ligue WHERE li_idffta ='".$code."'";
             return $result = $wpdb->get_var($sql);
         }
         

@@ -3,7 +3,7 @@
      Plugin Name: Gestion de Club de Tir &agrave; l'arc
      Plugin URI: http://gctaa.blockweb.org
      Description: Gestion des archers, concours, scores, palmares
-     Author: J. GUILLOTIN
+     Author: J. GUILLOTIN & T. QUEMENEUR
      Version: 1.0
      Author URI: http://www.blockweb.org
      */
@@ -35,8 +35,10 @@
         }
         
         function activate() {
-            /* Activation du plugin -> création si nécéssaire des tables dans la BDD */
-            //Concours::createBDD();
+            include "db.class.php";
+            Db::createBDD();
+            // Db::insertExempleBDD();
+            Db::insertDataBDD();
         }
         
         function admin_menu(){
