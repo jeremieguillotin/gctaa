@@ -29,6 +29,8 @@
         public function setOrdre($ordre) { $this->_ordre = $ordre;}
 
         public static function liste() {
+            global $wpdb;
+            
             $sql = "SELECT tt_code, tt_nom, tt_ordre FROM " . $wpdb->prefix . "gctaa_typetir ORDER BY tt_ordre";
             
             // on envoie la requÍte

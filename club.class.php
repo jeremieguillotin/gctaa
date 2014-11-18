@@ -36,6 +36,8 @@
         public function setLigue($ligue) { $this->_ligue =$ligue; }
 
         public static function selectBDD($idclub) {
+            global $wpdb;
+
             // chargement d'un Club
             $sql = "SELECT  cl_idclub ,  cl_nom ,  cl_ville ,  cl_dept ,  cl_ligue ,  cl_logo FROM " . $wpdb->prefix . "gctaa_clubs WHERE cl_idclub = ".$idclub;
             
@@ -44,6 +46,7 @@
             
             if (!$result) {
                 echo mysql_error();
+                echo $sql;
             } else {
                 $cpt=0;
                 if ($donneesClub = mysql_fetch_assoc($result))
@@ -55,6 +58,7 @@
             return null;
         }
         public function insertBDD() {
+            global $wpdb;
             
             $sql = "INSERT INTO " . $wpdb->prefix . "gctaa_clubs (cl_idclub, cl_nom, cl_ville, cl_dept, cl_ligue, cl_logo) VALUES (".$this->idclub().", '".$this->nom()."', '".$this->ville()."', '".$this->dept()."', ".$this->ligue().", '".$this->logo()."')";
             // on envoie la requÍte
@@ -68,6 +72,8 @@
             
         }
         public static function updateBDD($idclub, $club) {
+            global $wpdb;
+
             // Modification d'un club
             $sql = "UPDATE " . $wpdb->prefix . "gctaa_clubs SET cl_idclub = ".$club->idclub().", cl_nom = '".$club->nom()."', cl_ville = '".$club->ville()."', cl_dept = '".$club->dept()."', cl_ligue = ".$club->ligue().", cl_logo = '".$club->logo()."' WHERE cl_idclub=".$idclub;
             
@@ -81,6 +87,8 @@
             return "";
         }
         public static function deleteBDD($idclub) {
+            global $wpdb;
+
             // suppression d'un club
             
             // on crÈe la requÍte SQL
@@ -96,6 +104,7 @@
         
         public static function libelle($idclub){
 			global $wpdb;
+
             $sql = "SELECT  cl_nom ,  cl_ville FROM " . $wpdb->prefix . "gctaa_clubs WHERE cl_idclub = '".$idclub."'";
             
             // on envoie la requÍte
@@ -110,6 +119,7 @@
         
         public static function liste() {
 			global $wpdb;
+
             $sql = "SELECT cl_idclub, cl_nom, cl_ville, cl_dept, cl_ligue, cl_logo FROM " . $wpdb->prefix . "gctaa_clubs ORDER BY cl_ville";
             // on envoie la requête
             $donneesClubs = $wpdb->get_results($sql, ARRAY_A);
@@ -244,6 +254,8 @@
         }
         
         public static function ajouteClubs(array $listeClub) {
+            global $wpdb;
+            
             // fonction d'ajout d'un archer dans les effectifs du club
             // on crÈe la requÍte SQL
             

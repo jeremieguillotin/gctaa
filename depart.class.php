@@ -1,5 +1,6 @@
 <?php
     class Depart {
+        private $_idconcours;
         private $_numero;
         private $_date_debut;
         private $_heure_debut;
@@ -19,10 +20,12 @@
             }
         }
         
+        public function idconcours() { return $this->_idconcours; }
         public function numero() { return $this->_numero;}
         public function date_debut() { return $this->_date_debut; }
         public function heure_debut() { return $this->_heure_debut; }
         
+        public function setIdconcours($idconcours) { $this->_idconcours = $idconcours; }
         public function setNumero($num) { $this->_numero = $num;}
         public function setDate_debut($date) { $this->_date_debut = $date; }
         public function setHeure_debut($heure) { $this->_heure_debut = $heure; }

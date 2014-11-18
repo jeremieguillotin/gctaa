@@ -113,6 +113,8 @@ class Archer {
     }
     
     public function insertBDD() {
+        global $wpdb;
+
         $sql = "INSERT INTO " . $wpdb->prefix . "gctaa_archers (ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo) VALUES ('".$this->licence()."', '".$this->nom()."', '".$this->prenom()."', '".$this->date_naissance()."', '".$this->email()."', '".$this->photo()."')";
         
         // on envoie la requÍte
@@ -143,6 +145,8 @@ class Archer {
     
     
     public static function updateBDD($licence, $archer) {
+        global $wpdb;
+
 		// chargement d'un Archer
 		$sql = "UPDATE " . $wpdb->prefix . "gctaa_archers SET ar_licence = '".$archer->licence()."', ar_nom = '".$archer->nom()."', ar_prenom = '".$archer->prenom()."', ar_date_naissance = '".$archer->date_naissance()."', ar_email = '".$archer->email()."', ar_photo = '".$archer->photo()."' WHERE ar_licence='".$licence."'";
         
@@ -156,6 +160,7 @@ class Archer {
 	}
     
     public static function deleteBDD($licence) {
+        global $wpdb;
 		// suppression d'un archer des effectifs du club
 
 		// on crÈe la requÍte SQL
