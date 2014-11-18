@@ -37,7 +37,7 @@
         function activate() {
             include "db.class.php";
             Db::createBDD();
-            // Db::insertExempleBDD();
+            Db::insertExempleBDD();
             Db::insertDataBDD();
         }
         

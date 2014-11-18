@@ -128,7 +128,7 @@
                     echo '<div class="row-fluid">';
                     
                     echo '<div class="span2">';
-                    echo '<img src="./wordpress/wp-content/plugins/gctaa/images/' . $photo . '" class="img-polaroid">';
+                    echo '<img src="' . $photo . '" class="img-polaroid">';
                     echo '</div>';
                     
                     echo '<div class="span10">';
