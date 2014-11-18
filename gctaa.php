@@ -645,11 +645,15 @@ new Control.DatePicker('DATE_FIN', { icon: '../img/calendar.png' , locale: 'fr_F
             include "gctaa.class.php";
             include "archer.class.php";
             include "archer.page.php";
+            include "depart.class.php";
+            include "departement.class.php";
+            include "categorie.class.php";
             include "club.class.php";
             include "club.page.php";
             include "concours.class.php";
             include "concours.page.php";
             include "ligue.class.php";
+            include "typetir.class.php";
             wp_enqueue_style('gctaa-css', WP_PLUGIN_URL . '/gctaa/bootstrap/css/bootstrap.css');
             
         }
