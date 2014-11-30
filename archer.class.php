@@ -1,5 +1,5 @@
 <?php
-    /*salut test*/
+
 class Archer {
     private $_licence;
     private $_nom;
@@ -115,11 +115,16 @@ class Archer {
     public function insertBDD() {
         global $wpdb;
 
-        $sql = "INSERT INTO " . $wpdb->prefix . "gctaa_archers (ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo) VALUES ('".$this->licence()."', '".$this->nom()."', '".$this->prenom()."', '".$this->date_naissance()."', '".$this->email()."', '".$this->photo()."')";
-        
+        /*$sql = "INSERT INTO " . $wpdb->prefix . "gctaa_archers (ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo) VALUES ('".$this->licence()."', '".$this->nom()."', '".$this->prenom()."', '".$this->date_naissance()."', '".$this->email()."', '".$this->photo()."')";
         // on envoie la requÍte
-        $result = mysql_query($sql);
-        
+        $result = mysql_query($sql);*/
+
+        $result = $wpdb->insert( 
+            $wpdb->prefix . 'gctaa_archers', 
+            array( 'ar_licence' => $this->licence(),'ar_nom' => $this->nom(),'ar_prenom' => $this->prenom(),'ar_date_naissance' => $this->date_naissance(),'ar_email' => $this->email(),'ar_photo' => $this->photo()), 
+            array( '%s', '%s','%s','%s','%s','%s') 
+        );
+
         if (!$result) {
             return mysql_error();
 		} else {
@@ -146,6 +151,7 @@ class Archer {
     
     public static function updateBDD($licence, $archer) {
         global $wpdb;
+        // http://codex.wordpress.org/Class_Reference/wpdb#UPDATE_rows
 
 		// chargement d'un Archer
 		$sql = "UPDATE " . $wpdb->prefix . "gctaa_archers SET ar_licence = '".$archer->licence()."', ar_nom = '".$archer->nom()."', ar_prenom = '".$archer->prenom()."', ar_date_naissance = '".$archer->date_naissance()."', ar_email = '".$archer->email()."', ar_photo = '".$archer->photo()."' WHERE ar_licence='".$licence."'";
@@ -161,6 +167,7 @@ class Archer {
     
     public static function deleteBDD($licence) {
         global $wpdb;
+        // http://codex.wordpress.org/Class_Reference/wpdb#DELETE_Rows
 		// suppression d'un archer des effectifs du club
 
 		// on crÈe la requÍte SQL
