@@ -30,7 +30,31 @@
         public function setDate_debut($date) { $this->_date_debut = $date; }
         public function setHeure_debut($heure) { $this->_heure_debut = $heure; }
         
-        
+        public static function liste($concours) {
+            global $wpdb;
+            
+            $sql = "SELECT dc_idconcours, dc_numero, dc_date_debut, dc_heure_debut FROM " . $wpdb->prefix . "gctaa_departs_concours WHERE dc_idconcours = ".$concours. " ORDER BY dcnumero";
+           
+			$donneesDeparts = $wpdb->get_results($sql, ARRAY_A);
+            
+			$listeDeparts = array();
+			$cpt=-1;
+			
+			if ( $donneesDepartements )
+			{
+				foreach ( $donneesDeparts as $donneesDepart )
+				{
+					$cpt++;
+                    $depart = new Depart($donneesDepart);
+                    $listeDeparts[$cpt] = $depart;
+				}
+			}
+			else
+			{
+                echo 'erreur Liste Départ';
+			}
+            return $listeDeparts;
+        }
         
         public function affiche() {
             echo '<table>';

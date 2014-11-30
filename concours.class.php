@@ -54,10 +54,10 @@
                 echo mysql_error(). " - " . $sql;
             } else {
                 $cpt=0;
-                if ($donneesClub = mysql_fetch_assoc($result))
+                if ($donneesConcours = mysql_fetch_assoc($result))
                 {
-                    $club = new Club($donneesClub);
-                    return $club;
+                    $concours = new Concours($donneesConcours);
+                    return $concours;
                 }
             }
             return null;
@@ -137,19 +137,19 @@
         public static function afficheListe() {
             $hidden_field_name = 'GCTAA';
             $strRetour = '<table class="table table-bordered table-striped table-condensed table-hover">';
-            $strRetour = $strRetour . '	<thead>';
-            $strRetour = $strRetour . '	<tr>';
-            $strRetour = $strRetour . '		<th>Id</th>';
-            $strRetour = $strRetour . '		<th>Club</th>';
-            $strRetour = $strRetour . '		<th>Type</th>';      
-            $strRetour = $strRetour . '		<th>Saison</th>';
-            $strRetour = $strRetour . '		<th>Debut</th>';
-            $strRetour = $strRetour . '		<th>Fin</th>';
+            $strRetour = $strRetour . ' <thead>';
+            $strRetour = $strRetour . ' <tr>';
+            $strRetour = $strRetour . '     <th>Id</th>';
+            $strRetour = $strRetour . '     <th>Club</th>';
+            $strRetour = $strRetour . '     <th>Type</th>';      
+            $strRetour = $strRetour . '     <th>Saison</th>';
+            $strRetour = $strRetour . '     <th>Debut</th>';
+            $strRetour = $strRetour . '     <th>Fin</th>';
             $strRetour = $strRetour . '     <th>Info</th>';
-            $strRetour = $strRetour . '		<th><i class="icon-wrench"></i> Action</th>';
-            $strRetour = $strRetour . '	</tr>';
-            $strRetour = $strRetour . '	</thead>';
-            $strRetour = $strRetour . '	<tbody>';
+            $strRetour = $strRetour . '     <th><i class="icon-wrench"></i> Action</th>';
+            $strRetour = $strRetour . ' </tr>';
+            $strRetour = $strRetour . ' </thead>';
+            $strRetour = $strRetour . ' <tbody>';
             $listeConcours = Concours::liste();
             $cpt=0;
             foreach ($listeConcours as $concours) {
@@ -158,8 +158,8 @@
                 $strRetour = $strRetour . '<td>'.Club::libelle($concours->idclub()).'</td>';
                 $strRetour = $strRetour . '<td>'.TypeTir::libelle($concours->type()).'</td>';
                 $strRetour = $strRetour . '<td>'.$concours->saison().'</td>';
-                $strRetour = $strRetour . '<td>'.$concours->datedebut().'</td>';
-                $strRetour = $strRetour . '<td>'.$concours->datefin().'</td>';
+                $strRetour = $strRetour . '<td>'.Util::JJMMAAAA($concours->datedebut()).'</td>';
+                $strRetour = $strRetour . '<td>'.Util::JJMMAAAA($concours->datefin()).'</td>';
                 $strRetour = $strRetour . '<td>'.$concours->desc().'</td>';
                 $strRetour = $strRetour . '<td><form name="formListeConcours" method="post" action="?page=ficheConcours"><input type="hidden" name="'.$hidden_field_name.'" value="A"><input type="hidden" name="idconcours" maxlength="10" size="10" value="'.$concours->idconcours().'" /><div class="btn-group"><button class="btn btn-small" type="submit" name="affiche"><i class="icon-user"></i></button><button class="btn btn-small" type="submit" name="modif"><i class="icon-pencil"></i></button><button class="btn btn-small" type="submit" name="supprime" onclick="javascript:check=confirm( \'Effacer ce concours ? \');if(check==false) return false;"><i class="icon-trash"></i></button></div></form></td>';
                 $strRetour = $strRetour . '</tr>';

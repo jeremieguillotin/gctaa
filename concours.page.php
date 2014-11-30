@@ -16,35 +16,38 @@
     }
 
     
+    
     function admin_fiche_concours($wp_gctaa) {
         
         echo '<div class="wrap" id="gctaa">';
-        $contenuPage = "";
-        $erreur = "Page à développer";
-        /*$hidden_field_name = "GCTAA";
+
+        $hidden_field_name = "GCTAA";
         if ( isset($_POST[ $hidden_field_name ]) ) {
-            $idclub =  $_POST[ 'idclub' ];
+            $idconcours =  $_POST[ 'idconcours' ];
             if ($_POST[ $hidden_field_name ] == "modifOK" ) {
                 // On execute les modifications
-                $nvidclub =  $_POST[ 'nvidclub' ];
-                $nom =  $_POST[ 'nom' ];
-                $ville =  $_POST[ 'ville' ];
-                $dept =  $_POST[ 'dept' ];
-                $ligue =  $_POST[ 'ligue' ];
-                $logo =  $_POST[ 'logo' ];
-                $club = new Club(array( 'idclub' => $nvidclub,
-                                       'nom' => $nom,
-                                       'ville' => $ville,
-                                       'dept' => $dept,
-                                       'ligue' => $ligue,
-                                       'logo' => $logo
-                                       ));
-                
-                $erreur = Club::updateBDD($idclub, $club);
+                $nvidconcours =  $_POST[ 'nvidconcours' ];
+                $idclub =  $_POST[ 'idclub' ];
+                $type =  $_POST[ 'type' ];
+                $saison =  $_POST[ 'saison' ];
+                $datedebut =  $_POST[ 'datedebut' ];
+                $datefin =  $_POST[ 'datefin' ];
+                $desc =  $_POST[ 'desc' ];
+
+                $concours = new Concours(array('idconcours' => $nvidconcours,
+                                                'idclub' => $idclub,
+                                                'type' => $type,
+                                                'saison' => $saison,
+                                                'datedebut' => $datedebut,
+                                                'datefin' => $datefin,
+                                                'desc' => $desc
+                                                ));
+
+                $erreur = Concours::updateBDD($idconcours, $concours);
                 if ( $erreur == "" ) {
                     $contenuPage="affiche";
-                    $info = "Le club " . $nom . " a bien &eacute;t&eacute; modifi&eacute;.";
-                    $idclub = $nvidclub;
+                    $info = "Le concours " . $nvidconcours . " a bien &eacute;t&eacute; modifi&eacute;.";
+                    $idconcours = $nvidconcours;
                 } else {
                     $contenuPage="modif";
                 }
@@ -52,47 +55,51 @@
                 if (isset($_POST['affiche'])) {
                     // clic sur « Affiche »
                     $contenuPage="affiche";
-                    //Chargement du club
-                    $club = Club::selectBDD($idclub);
-                    if ( $club != null ) {
-                        $nom =  $club->nom();
-                        $ville = $club->ville();
-                        $logo = $club->logo();
-                        $dept = $club->dept();
-                        $ligue = $club->ligue();
+                    //Chargement du concours
+                    $concours = Concours::selectBDD($idconcours);
+                    if ( $concours != null ) {
+                        $idclub = $concours->idclub();
+                        $type = $concours->type();
+                        $saison = $concours->saison();
+                        $datedebut = $concours->datedebut();
+                        $datefin = $concours->datefin();
+                        $desc = $concours->desc();
+                        $club = Club::selectBDD($idclub);
                     } else {
-                        $erreur = "Erreur lors du chargement du club ".$idclub.".";
+                        $erreur = "Erreur lors du chargement du concours ".$idconcours.".";
                     }
                 } elseif (isset($_POST['modif'])) {
                     // clic sur « Modifier »
                     $contenuPage="modif";
-                    //Chargement du club
-                    $club = Club::selectBDD($idclub);
-                    if ( $club != null ) {
-                        $nom =  $club->nom();
-                        $ville = $club->ville();
-                        $logo = $club->logo();
-                        $dept = $club->dept();
-                        $ligue = $club->ligue();
+                    //Chargement du concours
+                    $concours = Concours::selectBDD($idconcours);
+                    if ( $concours != null ) {
+                        $idclub = $concours->idclub();
+                        $type = $concours->type();
+                        $saison = $concours->saison();
+                        $datedebut = $concours->datedebut();
+                        $datefin = $concours->datefin();
+                        $desc = $concours->desc();
+                        $club = Club::selectBDD($idclub);
                     } else {
-                        $erreur = "Erreur lors du chargement du club ".idclub.".";
+                        $erreur = "Erreur lors du chargement du concours ".$idconcours.".";
                     }
                     
                 } elseif (isset($_POST['supprime'])){
                     // clic sur « Supprimer »
                     $contenuPage="supprime";
-                    //Suppression d'un Club
-                    $erreur = Club::deleteBDD($idclub);
+                    //Suppression d'un concours
+                    $erreur = Concours::deleteBDD($idconcours);
                     if ( $erreur == "" ) {
-                        $info = "Le club " . $idclub . " a bien &eacute;t&eacute; supprim&eacute;.";
+                        $info = "Le concours " . $idconcours . " a bien &eacute;t&eacute; supprim&eacute;.";
                     } else {
-                        $erreur = "Erreur lors de la suppression du club ".$idclub.".";
+                        $erreur = "Erreur lors de la suppression du concours ".$idconcours.".";
                     }
                 } else {
                     $erreur = "Qu'est-ce tu fous là ???";
                     //PAGE 404...
                 }
-            }*/
+            }
         
             $wp_gctaa->admin_affichemenupage("btn-small");
             
@@ -112,25 +119,72 @@
             }
             
             
-            /*
             //Affichage du contenu selon $contenuPage
             switch ($contenuPage) {
                 case "affiche" :
                     echo '<div class="page-header">';
-                    echo '<h1>Club <small>Fiche du club ' . $nom . '</small></h1>';
+                    echo '<h1>Concours <small>' . $club->ville() . ' le ' . Util::JJMMAAAA($datedebut) . '</small></h1>';
                     echo '</div>';
                     
                     echo '<div class="row-fluid">';
                     
                     echo '<div class="span2">';
-                    echo '<img src="' . $logo . '" class="img-polaroid">';
+                    echo '<img src="' . $club->logo() . '" class="img-polaroid">';
                     echo '</div>';
                     
                     echo '<div class="span10">';
                     echo '      <div class="input-prepend">';
                     echo '          <span class="add-on"><i class="icon-tag"></i></span>';
-                    echo '          <input style="height:30px;" class="span3" id="prependedInput" type="text" name="idclub" maxlength="7" size="7" value="' . $idclub . '" placeholder="ID Club" disabled>';
+                    echo '          <input style="height:30px;" class="span3" id="prependedInput" type="text" name="idconcours" maxlength="7" size="7" value="' . $idconcours . '" placeholder="ID Concours" disabled>';
                     echo '      </div>';
+                    echo '</div>';
+
+                    echo '<div class="span10">';
+                    echo '      <div class="input-prepend">';
+                    echo '          <span class="add-on"><i class="icon-map-marker"></i></span>';
+                    echo '          <input style="height:30px;" class="span3" id="prependedInput" type="text" name="idclub" maxlength="7" size="7" value="' . Club::libelle($idclub) . '" placeholder="idclub" disabled>';
+                    echo '      </div>';
+                    echo '</div>';
+                    
+                    echo '<div class="span10">';
+                    echo '      <div class="input-prepend">';
+                    echo '          <span class="add-on"><i class="icon-tag"></i></span>';
+                    echo '          <input style="height:30px;" class="span3" id="prependedInput" type="text" name="type" maxlength="7" size="7" value="' . TypeTir::libelle($type) . '" placeholder="type" disabled>';
+                    echo '      </div>';
+                    echo '</div>';
+                    
+                    echo '<div class="span10">';
+                    echo '      <div class="input-prepend">';
+                    echo '          <span class="add-on"><i class="icon-tag"></i></span>';
+                    echo '          <input style="height:30px;" class="span3" id="prependedInput" type="text" name="saison" maxlength="7" size="7" value="' . $saison . '" placeholder="saison" disabled>';
+                    echo '      </div>';
+                    echo '</div>';
+                    
+                    echo '<div class="span10">';
+                    echo '      <div class="input-prepend">';
+                    echo '          <span class="add-on"><i class="icon-tag"></i></span>';
+                    echo '          <input style="height:30px;" class="span3" id="prependedInput" type="text" name="datedebut" maxlength="7" size="7" value="' . Util::JJMMAAAA($datedebut) . '" placeholder="datedebut" disabled>';
+                    echo '      </div>';
+                    echo '</div>';
+                    
+                    echo '<div class="span10">';
+                    echo '      <div class="input-prepend">';
+                    echo '          <span class="add-on"><i class="icon-tag"></i></span>';
+                    echo '          <input style="height:30px;" class="span3" id="prependedInput" type="text" name="datefin" maxlength="7" size="7" value="' . Util::JJMMAAAA($datefin) . '" placeholder="datefin" disabled>';
+                    echo '      </div>';
+                    echo '</div>';
+                    
+                    echo '<div class="span10">';
+                    echo '      <div class="input-prepend">';
+                    echo '          <span class="add-on"><i class="icon-tag"></i></span>';
+                    echo '          <input style="height:30px;" class="span3" id="prependedInput" type="text" name="desc" maxlength="7" size="7" value="' . $desc . '" placeholder="desc" disabled>';
+                    echo '      </div>';
+                    echo '</div>';
+
+
+
+
+                    /*
                     echo '      <div class="input-prepend">';
                     echo '          <span class="add-on"><i class="icon-comment"></i></span>';
                     echo '          <input style="height:30px;" class="span5" id="prependedInput" type="text" name="nom" maxlength="100" size="100" value="' . $nom . '" placeholder="Nom" disabled>';
@@ -147,6 +201,7 @@
                     echo '          <span class="add-on"><i class="icon-globe"></i></span>';
                     echo '          <input style="height:30px;" class="span5" id="prependedInput" type="text" name="ligue" maxlength="200" size="70" value="' . Ligue::libelle($club->ligue()) . '" placeholder="Ligue" disabled>';
                     echo '      </div>';
+                    */
                     echo '</div>';
                     echo '</div>';
                     
@@ -155,12 +210,12 @@
                     echo '<br />';
                     
                     
-                    echo '<form name="action" method="post" action="?page=ficheClub">';
+                    echo '<form name="action" method="post" action="?page=ficheConcours">';
                     echo '<input type="hidden" name="'.$hidden_field_name.'" value="A">';
-                    echo '<input type="hidden" name="idclub" maxlength="7" size="7" value="'.$idclub.'" />';
+                    echo '<input type="hidden" name="idconcours" maxlength="7" size="7" value="'.$idconcours.'" />';
                     echo '<div class="btn-group">';
-                    echo '<button class="btn btn-primary" type="submit" name="modif"><i class="icon-pencil icon-white"></i> Modifier ce Club</button>';
-                    echo '<button class="btn btn-danger" type="submit" name="supprime" onclick="javascript:check=confirm( \'Effacer ce Club ? \');if(check==false) return false;"><i class="icon-trash icon-white"></i> Supprimer ce Club</button>';
+                    echo '<button class="btn btn-primary" type="submit" name="modif"><i class="icon-pencil icon-white"></i> Modifier ce Concours</button>';
+                    echo '<button class="btn btn-danger" type="submit" name="supprime" onclick="javascript:check=confirm( \'Effacer ce Concours ? \');if(check==false) return false;"><i class="icon-trash icon-white"></i> Supprimer ce Concours</button>';
                     echo '</div>';
                     echo '</form>';
                     
@@ -168,17 +223,18 @@
                     
                 case "modif" :
                     echo '<div class="page-header">';
-                    echo '<h1>Club <small>Modification du club ' . $nom . '</small></h1>';
+                    echo '<h1>Club <small>Modification du concours ' . $nom . '</small></h1>';
                     echo '</div>';
                     
-                    echo '<form name="modifClub" method="post" action="">';
+                    echo '<form name="modifConcours" method="post" action="">';
                     echo '  <fieldset>';
                     echo '      <input type="hidden" name="' . $hidden_field_name . '" value="modifOK">';
-                    echo '      <input type="hidden" name="idclub" maxlength="7" size="7" value="' . $idclub . '" />';
+                    echo '      <input type="hidden" name="idconcours" maxlength="7" size="7" value="' . $idconcours . '" />';
                     echo '      <div class="input-prepend">';
                     echo '          <span class="add-on"><i class="icon-tag"></i></span>';
-                    echo '          <input style="height:30px;" class="span3" id="prependedInput" type="text" name="nvidclub" maxlength="7" size="7" value="' . $idclub . '" placeholder="ID Club">';
+                    echo '          <input style="height:30px;" class="span3" id="prependedInput" type="text" name="nvidconcours" maxlength="7" size="7" value="' . $idconcours . '" placeholder="ID Club">';
                     echo '      </div>';
+                    /*
                     echo '      <div class="input-prepend">';
                     echo '          <span class="add-on"><i class="icon-comment"></i></span>';
                     echo '          <input style="height:30px;" class="span5" id="prependedInput" type="text" name="nom" maxlength="100" size="100" value="' . $nom . '" placeholder="Nom du club">';
@@ -214,6 +270,7 @@
                     echo '          <input style="height:30px;" class="span5" id="prependedInput" type="text" name="logo" maxlength="200" size="70" value="' . $logo . '" placeholder="Logo du club">';
                     echo '          <button class="btn" type="button">Parcourir...</button>';
                     echo '      </div>';
+                    */
                     echo '      <br />';
                     echo '      <button type="submit" class="btn btn-primary">Valider les modifications</button>';
                     echo '  </fieldset>';
@@ -224,16 +281,15 @@
                     
                 case "supprime" :
                     echo '  <div class="page-header">';
-                    echo '      <h1>Club <small>Liste des Clubs</small></h1>';
+                    echo '      <h1>Concours <small>Liste des Concours</small></h1>';
                     echo '  </div>';
-                    Club::afficheListeClubs();
+                    Concours::afficheListe();
                     break;
             }
         } else {
             $erreur = "Qu'est-ce tu fous là ???";
             //PAGE 404...
         }
-             */
         echo '</div>';
     }
     

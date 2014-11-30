@@ -57,9 +57,9 @@
             // on envoie la requÍte
             $result = $wpdb->get_var($sql);            
             if ($result) {
-                return $code;
-            } else {
                 return $result;
+            } else {
+                return $code;
             }
         }
         
