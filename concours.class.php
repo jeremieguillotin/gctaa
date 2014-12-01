@@ -46,20 +46,17 @@
             global $wpdb;
             // chargement d'un Club
             $sql = "SELECT  co_idconcours, co_idclub, co_type, co_saison, co_datedebut, co_datefin, co_desc FROM " . $wpdb->prefix . "gctaa_concours WHERE co_idconcours = ".$idconcours;
-            $result = $wpdb->get_row($sql, ARRAY_A);
+            $donneesConcours = $wpdb->get_row($sql, ARRAY_A);
             
-            if (!$result) {
-                echo mysql_error(). " - " . $sql;
+            if (!$donneesConcours) {
+                echo "Erreur lors du chargement du concours (" . $idconcours . ") : Concours non trouvé.";
             } else {
-                $cpt=0;
-                if ($donneesConcours = mysql_fetch_assoc($result))
-                {
-                    $concours = new Concours($donneesConcours);
-                    return $concours;
-                }
+                $concours = new Concours($donneesConcours);
+                return $concours;
             }
             return null;
         }
+
         public function insertBDD() {
             global $wpdb;
 

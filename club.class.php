@@ -40,21 +40,17 @@
             // chargement d'un Club
             $sql = "SELECT  cl_idclub ,  cl_nom ,  cl_ville ,  cl_dept ,  cl_ligue ,  cl_logo FROM " . $wpdb->prefix . "gctaa_clubs WHERE cl_idclub = ".$idclub;
             // on envoie la requÍte
-            $result = $wpdb->get_row($sql, ARRAY_A);
+            $donneesClub = $wpdb->get_row($sql, ARRAY_A);
             
-            if (!$result) {
-                echo mysql_error();
-                echo $sql;
+            if (!$donneesClub) {
+                echo "Erreur lors du chargement du club (" . $idclub . ") : Club non trouvé.";
             } else {
-                $cpt=0;
-                if ($donneesClub = mysql_fetch_assoc($result))
-                {
-                    $club = new Club($donneesClub);
-                    return $club;
-                }
+                $club = new Club($donneesClub);
+                return $club;
             }
             return null;
         }
+
         public function insertBDD() {
             global $wpdb;
 
