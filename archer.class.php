@@ -76,7 +76,7 @@ class Archer {
         }
         else
         {
-            echo 'erreur';
+            echo 'Aucun archer.';
         }
 
         return $listeArcher;
@@ -95,8 +95,6 @@ class Archer {
                 $cpt++;
                 $listeCategories[$cpt] = $donneesCategorie;
             }
-        } else {
-            echo 'Erreur';
         }
         return $listeCategories;
     }
@@ -120,8 +118,8 @@ class Archer {
             array( '%s', '%s','%s','%s','%s','%s')
         );
 
-        if (!$result) {
-            return mysql_error();
+        if ( false === $result ) {
+            return "Impossible d'ajouter l'archer (" . $this->licence() . ") : " . $wpdb->last_error;
         } else {
             return "";
         }
@@ -135,7 +133,7 @@ class Archer {
         $donneesArcher = $wpdb->get_row($sql, ARRAY_A);
 
         if (!$donneesArcher) {
-            echo 'Erreur';
+            echo "Erreur lors du chargement de l'archer (" . $licence . ") : Archer non trouvé.";
         } else {
             $archer = new Archer($donneesArcher);
             return $archer;
@@ -146,17 +144,17 @@ class Archer {
 
     public static function updateBDD($licence, $archer) {
         global $wpdb;
-        // http://codex.wordpress.org/Class_Reference/wpdb#UPDATE_rows
         $result = $wpdb->update(
             $wpdb->prefix . 'gctaa_archers',
-            array( 'ar_nom' => $archer->nom(),'ar_prenom' => $archer->prenom(),'ar_date_naissance' => $archer->date_naissance(),'ar_email' => $archer->email(),'ar_photo' => $archer->photo()),
+            array( 'ar_licence' => $archer->licence(), 'ar_nom' => $archer->nom(),'ar_prenom' => $archer->prenom(),'ar_date_naissance' => $archer->date_naissance(),'ar_email' => $archer->email(),'ar_photo' => $archer->photo()),
             array( 'ar_licence' => $licence),
             array( '%s','%s','%s','%s','%s')
         );
-
-        if (!$result) {
-            return mysql_error();
-        } else {
+        if ( false === $result ) {
+            return "Impossible de mettre à jour l'archer (" . $licence . ") : " . $wpdb->last_error;
+        } elseif ( 0 === $result ) {
+            return "Impossible de mettre à jour l'archer (" . $licence . ") : Archer non trouvé.";
+        } elseif ( 0 < $result ) {
             return "";
         }
     }
@@ -168,10 +166,11 @@ class Archer {
             $wpdb->prefix . 'gctaa_archers',
             array( 'ar_licence' => $licence )
         );
-        if (!$result) {
-            return mysql_error();
-        }
-        else{
+        if ( false === $result ) {
+            return "Impossible de supprimer l'archer (" . $licence . ") : " . $wpdb->last_error;
+        } elseif ( 0 === $result ) {
+            return "Impossible de supprimer l'archer (" . $licence . ") : Archer non trouvé.";
+        } elseif ( 0 < $result ) {
             return "";
         }
     }
