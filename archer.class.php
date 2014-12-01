@@ -147,10 +147,6 @@ class Archer {
     public static function updateBDD($licence, $archer) {
         global $wpdb;
         // http://codex.wordpress.org/Class_Reference/wpdb#UPDATE_rows
-
-        //$sql = "UPDATE " . $wpdb->prefix . "gctaa_archers SET ar_licence = '".$archer->licence()."', ar_nom = '".$archer->nom()."', ar_prenom = '".$archer->prenom()."', ar_date_naissance = '".$archer->date_naissance()."', ar_email = '".$archer->email()."', ar_photo = '".$archer->photo()."' WHERE ar_licence='".$licence."'";
-        //$result = mysql_query($sql);
-
         $result = $wpdb->update(
             $wpdb->prefix . 'gctaa_archers',
             array( 'ar_nom' => $archer->nom(),'ar_prenom' => $archer->prenom(),'ar_date_naissance' => $archer->date_naissance(),'ar_email' => $archer->email(),'ar_photo' => $archer->photo()),
