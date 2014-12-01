@@ -182,9 +182,6 @@ class Archer {
     public static function deleteBDD($licence) {
         global $wpdb;
         // http://codex.wordpress.org/Class_Reference/wpdb#DELETE_Rows
-//		$sql = "DELETE FROM " . $wpdb->prefix . "gctaa_archers WHERE ar_licence = '".$licence."'";
-//		$result = mysql_query($sql);
-
         $result = $wpdb->delete(
             $wpdb->prefix . 'gctaa_archers',
             array( 'ar_licence' => $licence )
