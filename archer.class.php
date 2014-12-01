@@ -153,32 +153,39 @@ class Archer {
         global $wpdb;
         // http://codex.wordpress.org/Class_Reference/wpdb#UPDATE_rows
 
-		// chargement d'un Archer
-		$sql = "UPDATE " . $wpdb->prefix . "gctaa_archers SET ar_licence = '".$archer->licence()."', ar_nom = '".$archer->nom()."', ar_prenom = '".$archer->prenom()."', ar_date_naissance = '".$archer->date_naissance()."', ar_email = '".$archer->email()."', ar_photo = '".$archer->photo()."' WHERE ar_licence='".$licence."'";
-        
-        // on envoie la requÍte
-        $result = mysql_query($sql);
-        
-		if (!$result) {
+		//$sql = "UPDATE " . $wpdb->prefix . "gctaa_archers SET ar_licence = '".$archer->licence()."', ar_nom = '".$archer->nom()."', ar_prenom = '".$archer->prenom()."', ar_date_naissance = '".$archer->date_naissance()."', ar_email = '".$archer->email()."', ar_photo = '".$archer->photo()."' WHERE ar_licence='".$licence."'";
+        //$result = mysql_query($sql);
+
+        $result = $wpdb->update(
+            $wpdb->prefix . 'gctaa_archers',
+            array( 'ar_nom' => $archer->nom(),'ar_prenom' => $archer->prenom(),'ar_date_naissance' => $archer->date_naissance(),'ar_email' => $archer->email(),'ar_photo' => $archer->photo()),
+            array( 'ar_licence' => $licence),
+            array( '%s','%s','%s','%s','%s')
+        );
+
+        if (!$result) {
             return mysql_error();
-		}
-		return "";
+        } else {
+            return "";
+        }
 	}
     
     public static function deleteBDD($licence) {
         global $wpdb;
         // http://codex.wordpress.org/Class_Reference/wpdb#DELETE_Rows
-		// suppression d'un archer des effectifs du club
+//		$sql = "DELETE FROM " . $wpdb->prefix . "gctaa_archers WHERE ar_licence = '".$licence."'";
+//		$result = mysql_query($sql);
 
-		// on crÈe la requÍte SQL
-		$sql = "DELETE FROM " . $wpdb->prefix . "gctaa_archers WHERE ar_licence = '".$licence."'";
-        
-		$result = mysql_query($sql);
-        
+        $result = $wpdb->delete(
+            $wpdb->prefix . 'gctaa_archers',
+            array( 'ar_licence' => $licence )
+        );
 		if (!$result) {
             return mysql_error();
 		}
-		return "";
+        else{
+            return "";
+        }
 	}
     
     public static function afficheListeArcher() {
