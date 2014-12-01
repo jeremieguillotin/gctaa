@@ -114,11 +114,6 @@ class Archer {
 
     public function insertBDD() {
         global $wpdb;
-
-        /*$sql = "INSERT INTO " . $wpdb->prefix . "gctaa_archers (ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo) VALUES ('".$this->licence()."', '".$this->nom()."', '".$this->prenom()."', '".$this->date_naissance()."', '".$this->email()."', '".$this->photo()."')";
-        // on envoie la requÍte
-        $result = mysql_query($sql);*/
-
         $result = $wpdb->insert(
             $wpdb->prefix . 'gctaa_archers',
             array( 'ar_licence' => $this->licence(),'ar_nom' => $this->nom(),'ar_prenom' => $this->prenom(),'ar_date_naissance' => $this->date_naissance(),'ar_email' => $this->email(),'ar_photo' => $this->photo()),
@@ -132,6 +127,7 @@ class Archer {
         }
 
     }
+
 
     public static function selectBDD($licence) {
         global $wpdb;
@@ -152,10 +148,6 @@ class Archer {
     public static function updateBDD($licence, $archer) {
         global $wpdb;
         // http://codex.wordpress.org/Class_Reference/wpdb#UPDATE_rows
-
-        //$sql = "UPDATE " . $wpdb->prefix . "gctaa_archers SET ar_licence = '".$archer->licence()."', ar_nom = '".$archer->nom()."', ar_prenom = '".$archer->prenom()."', ar_date_naissance = '".$archer->date_naissance()."', ar_email = '".$archer->email()."', ar_photo = '".$archer->photo()."' WHERE ar_licence='".$licence."'";
-        //$result = mysql_query($sql);
-
         $result = $wpdb->update(
             $wpdb->prefix . 'gctaa_archers',
             array( 'ar_nom' => $archer->nom(),'ar_prenom' => $archer->prenom(),'ar_date_naissance' => $archer->date_naissance(),'ar_email' => $archer->email(),'ar_photo' => $archer->photo()),
