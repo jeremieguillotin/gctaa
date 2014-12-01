@@ -37,12 +37,10 @@
 
         public static function selectBDD($idclub) {
             global $wpdb;
-
             // chargement d'un Club
             $sql = "SELECT  cl_idclub ,  cl_nom ,  cl_ville ,  cl_dept ,  cl_ligue ,  cl_logo FROM " . $wpdb->prefix . "gctaa_clubs WHERE cl_idclub = ".$idclub;
-            
             // on envoie la requÍte
-            $result = mysql_query($sql);
+            $result = $wpdb->get_row($sql, ARRAY_A);
             
             if (!$result) {
                 echo mysql_error();
@@ -59,11 +57,12 @@
         }
         public function insertBDD() {
             global $wpdb;
-            
-            $sql = "INSERT INTO " . $wpdb->prefix . "gctaa_clubs (cl_idclub, cl_nom, cl_ville, cl_dept, cl_ligue, cl_logo) VALUES (".$this->idclub().", '".$this->nom()."', '".$this->ville()."', '".$this->dept()."', ".$this->ligue().", '".$this->logo()."')";
-            // on envoie la requÍte
-            $result = mysql_query($sql);
-            
+
+            $result = $wpdb->insert(
+                $wpdb->prefix . 'gctaa_clubs',
+                array( 'cl_idclub' => $this->idclub(),'cl_nom' => $this->nom(),'cl_ville' => $this->ville(),'cl_dept' => $this->dept(),'cl_ligue' => $this->ligue(),'cl_logo' => $this->logo()),
+                array( '%s', '%s','%s','%s','%s','%s')
+            );
             if (!$result) {
                 return mysql_error();
             } else {
@@ -73,33 +72,32 @@
         }
         public static function updateBDD($idclub, $club) {
             global $wpdb;
+            $result = $wpdb->update(
+                $wpdb->prefix . 'gctaa_clubs',
+                array( 'cl_nom' => $club->nom(),'cl_ville' => $club->ville(),'cl_dept' => $club->dept(),'cl_ligue' => $club->ligue(),'cl_logo' => $club->logo()),
+                array( 'cl_idclub' => $idclub),
+                array( '%s','%s','%s','%s','%s')
+            );
 
-            // Modification d'un club
-            $sql = "UPDATE " . $wpdb->prefix . "gctaa_clubs SET cl_idclub = ".$club->idclub().", cl_nom = '".$club->nom()."', cl_ville = '".$club->ville()."', cl_dept = '".$club->dept()."', cl_ligue = ".$club->ligue().", cl_logo = '".$club->logo()."' WHERE cl_idclub=".$idclub;
-            
-            
-            // on envoie la requÍte
-            $result = mysql_query($sql);
-            
             if (!$result) {
                 return mysql_error() . " - " . $sql;
             }
-            return "";
+            else{
+                return "";
+            }
         }
         public static function deleteBDD($idclub) {
             global $wpdb;
-
-            // suppression d'un club
-            
-            // on crÈe la requÍte SQL
-            $sql = "DELETE FROM " . $wpdb->prefix . "gctaa_clubs WHERE cl_idclub = ".$idclub;
-            
-            $result = mysql_query($sql);
-            
+            $result = $wpdb->delete(
+                $wpdb->prefix . 'gctaa_clubs',
+                array( 'cl_idclub' => $idclub )
+            );
             if (!$result) {
                 return mysql_error();
             }
-            return "";
+            else{
+                return "";
+            }
         }
         
         public static function libelle($idclub){
