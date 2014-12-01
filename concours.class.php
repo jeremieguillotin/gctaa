@@ -46,9 +46,7 @@
             global $wpdb;
             // chargement d'un Club
             $sql = "SELECT  co_idconcours, co_idclub, co_type, co_saison, co_datedebut, co_datefin, co_desc FROM " . $wpdb->prefix . "gctaa_concours WHERE co_idconcours = ".$idconcours;
-            
-            // on envoie la requÍte
-            $result = mysql_query($sql);
+            $result = $wpdb->get_row($sql, ARRAY_A);
             
             if (!$result) {
                 echo mysql_error(). " - " . $sql;
@@ -64,38 +62,47 @@
         }
         public function insertBDD() {
             global $wpdb;
-            
-            $sql = "INSERT INTO " . $wpdb->prefix . "gctaa_concours (co_idconcours, co_idclub, co_type, co_saison, co_datedebut, co_datefin, co_desc) VALUES (".$this->idconcours().", ".$this->idclub().", '".$this->type()."', ".$this->saison().", '".$this->datedebut()."', '".$this->datefin()."', '".$this->desc()."')";
-            
-            // on envoie la requÍte
-            $result = mysql_query($sql);
-            
+
+            $result = $wpdb->insert(
+                $wpdb->prefix . 'gctaa_concours',
+                array('co_idconcours' => $this->idconcours(),'co_idclub' => $this->idclub(),'co_type' => $this->type(),'co_saison' => $this->saison(),'co_datedebut' => $this->datedebut(),'co_datefin' => $this->datefin(),'co_desc' => $this->desc()),
+                array( '%s', '%s','%s','%s','%s','%s', '%s')
+            );
+
             if (!$result) {
-                return mysql_error(). " - " . $sql;
+                return mysql_error();
+            } else {
+                return "";
             }
-            return "";
         }
         public static function updateBDD($idconcours, $concours) {
             global $wpdb;
-            // Modification d'un club
-            $sql = "UPDATE " . $wpdb->prefix . "gctaa_concours SET co_idconcours = ".$concours->idconcours().", co_idclub = ".$concours->idclub().", co_type = '".$concours->type()."', co_saison = ".$concours->saison().", co_datedebut = '".$concours->datedebut()."', co_datefin = '".$concours->datefin()."', co_desc = '".$concours->desc()."' WHERE co_idconcours=".$idconcours;
-            
-            // on envoie la requÍte
-            $result = mysql_query($sql);
-            
+            $result = $wpdb->update(
+                $wpdb->prefix . 'gctaa_concours',
+                array( 'co_idclub' => $concours->idclub(),'co_type' => $concours->type(),'co_saison' => $concours->saison(),'co_datedebut' => $concours->datedebut(),'co_datefin' => $concours->datefin(),'co_desc' => $concours->desc()),
+                array( 'co_idconcours' => $idconcours),
+                array( '%s','%s','%s','%s','%s','%s')
+            );
+
             if (!$result) {
-                return mysql_error() . " - " . $sql;
+                return mysql_error();
+            } else {
+                return "";
             }
-            return "";
         }
         public static function deleteBDD($idconcours) {
             global $wpdb;
-            // suppression d'un club
-            
-            // on crÈe la requÍte SQL
-            $sql = "DELETE FROM " . $wpdb->prefix . "gctaa_concours WHERE co_idconcours = ".$idconcours;
-			$wpdb->query($sql);
-            return "";
+            // http://codex.wordpress.org/Class_Reference/wpdb#DELETE_Rows
+            $result = $wpdb->delete(
+                $wpdb->prefix . 'gctaa_concours',
+                array( 'co_idconcours' => $idconcours )
+            );
+            if (!$result) {
+                return mysql_error();
+            }
+            else{
+                return "";
+            }
         }
            
         
