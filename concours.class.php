@@ -66,8 +66,8 @@
                 array( '%s', '%s','%s','%s','%s','%s', '%s')
             );
 
-            if (!$result) {
-                return mysql_error();
+            if ( false === $result ) {
+                return "Impossible d'ajouter le concours (" . $this->idconcours() . ") : " . $wpdb->last_error;
             } else {
                 return "";
             }
@@ -80,10 +80,11 @@
                 array( 'co_idconcours' => $idconcours),
                 array( '%s','%s','%s','%s','%s','%s')
             );
-
-            if (!$result) {
-                return mysql_error();
-            } else {
+            if ( false === $result ) {
+                return "Impossible de mettre à jour le concours (" . $idconcours . ") : " . $wpdb->last_error;
+            } elseif ( 0 === $result ) {
+                return "Impossible de mettre à jour le concours (" . $idconcours . ") : Concours non trouvé.";
+            } elseif ( 0 < $result ) {
                 return "";
             }
         }
@@ -94,10 +95,11 @@
                 $wpdb->prefix . 'gctaa_concours',
                 array( 'co_idconcours' => $idconcours )
             );
-            if (!$result) {
-                return mysql_error();
-            }
-            else{
+            if ( false === $result ) {
+                return "Impossible de mettre à jour le concours (" . $idconcours . ") : " . $wpdb->last_error;
+            } elseif ( 0 === $result ) {
+                return "Impossible de mettre à jour le concours (" . $idconcours . ") : Concours non trouvé.";
+            } elseif ( 0 < $result ) {
                 return "";
             }
         }

@@ -59,8 +59,9 @@
                 array( 'cl_idclub' => $this->idclub(),'cl_nom' => $this->nom(),'cl_ville' => $this->ville(),'cl_dept' => $this->dept(),'cl_ligue' => $this->ligue(),'cl_logo' => $this->logo()),
                 array( '%s', '%s','%s','%s','%s','%s')
             );
-            if (!$result) {
-                return mysql_error();
+
+            if ( false === $result ) {
+                return "Impossible d'ajouter le club (" . $this->idclub() . ") : " . $wpdb->last_error;
             } else {
                 return "";
             }
@@ -74,11 +75,11 @@
                 array( 'cl_idclub' => $idclub),
                 array( '%s','%s','%s','%s','%s')
             );
-
-            if (!$result) {
-                return mysql_error() . " - " . $sql;
-            }
-            else{
+            if ( false === $result ) {
+                return "Impossible de mettre à jour le club (" . $idclub . ") : " . $wpdb->last_error;
+            } elseif ( 0 === $result ) {
+                return "Impossible de mettre à jour le club (" . $idclub . ") : Club non trouvé.";
+            } elseif ( 0 < $result ) {
                 return "";
             }
         }
@@ -88,10 +89,11 @@
                 $wpdb->prefix . 'gctaa_clubs',
                 array( 'cl_idclub' => $idclub )
             );
-            if (!$result) {
-                return mysql_error();
-            }
-            else{
+            if ( false === $result ) {
+                return "Impossible de supprimer le club (" . $idclub . ") : " . $wpdb->last_error;
+            } elseif ( 0 === $result ) {
+                return "Impossible de supprimer le club (" . $idclub . ") : Club non trouvé.";
+            } elseif ( 0 < $result ) {
                 return "";
             }
         }
