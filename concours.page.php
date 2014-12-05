@@ -220,63 +220,56 @@
                     echo '</form>';
                     
                     break;
-                    
+
                 case "modif" :
                     echo '<div class="page-header">';
-                    echo '<h1>Club <small>Modification du concours ' . $nom . '</small></h1>';
+                    echo '<h1>Concours <small>Modification du Concours ' . $idconcours . '</small></h1>';
                     echo '</div>';
-                    
+
                     echo '<form name="modifConcours" method="post" action="">';
                     echo '  <fieldset>';
                     echo '      <input type="hidden" name="' . $hidden_field_name . '" value="modifOK">';
-                    echo '      <input type="hidden" name="idconcours" maxlength="7" size="7" value="' . $idconcours . '" />';
+                    echo '      <input type="hidden" name="licence" maxlength="7" size="7" value="' . $idconcours . '" />';
                     echo '      <div class="input-prepend">';
                     echo '          <span class="add-on"><i class="icon-tag"></i></span>';
-                    echo '          <input style="height:30px;" class="span3" id="prependedInput" type="text" name="nvidconcours" maxlength="7" size="7" value="' . $idconcours . '" placeholder="ID Club">';
-                    echo '      </div>';
-                    /*
-                    echo '      <div class="input-prepend">';
-                    echo '          <span class="add-on"><i class="icon-comment"></i></span>';
-                    echo '          <input style="height:30px;" class="span5" id="prependedInput" type="text" name="nom" maxlength="100" size="100" value="' . $nom . '" placeholder="Nom du club">';
+                    echo '          <input style="height:30px;" class="span3" id="prependedInput" type="text" name="idconcours" maxlength="7" size="7" value="' . $idconcours . '" placeholder="ID Concours">';
                     echo '      </div>';
                     echo '      <div class="input-prepend">';
                     echo '          <span class="add-on"><i class="icon-map-marker"></i></span>';
-                    echo '          <input style="height:30px;" class="span5" id="prependedInput" type="text" name="ville" maxlength="100" size="32" value="' . $ville . '" placeholder="Ville">';
+                    echo '          <input style="height:30px;" class="span5" id="prependedInput" type="text" name="idclub" maxlength="100" size="100" value="' . Club::libelle($idclub) . '" placeholder="ID Club">';
                     echo '      </div>';
-                    echo '      <select class="span3" name="ligue">';
-                    $listeLigue = Ligue::liste();
-                    foreach ($listeLigue as $lig) {
-                        if ( $lig->idffta() == $ligue ) {
-                            echo '          <option value="'.$lig->idffta().'" selected>' . $lig->nom() . '</option>';
-                        } else {
-                            echo '          <option value="'.$lig->idffta().'">' . $lig->nom() . '</option>';
-                        }
-                    }
-                    echo '      </select>';
-                    
-                    echo '      <select name="dept" class="span3">';
-                    $listeDepartement = Departement::liste();
-                    foreach ($listeDepartement as $departement) {
-                        if ( $departement->iddept() == $dept ) {
-                            echo '          <option value="'.$departement->iddept().'" selected>' . $departement->nom() . '</option>';
-                        } else {
-                            echo '          <option value="'.$departement->iddept().'">' . $departement->nom() . '</option>';
-                        }
-                    }
-                    echo '      </select>';
-                    
-                    echo '      <div class="input-prepend input-append">';
-                    echo '          <span class="add-on"><i class="icon-picture"></i></span>';
-                    echo '          <input style="height:30px;" class="span5" id="prependedInput" type="text" name="logo" maxlength="200" size="70" value="' . $logo . '" placeholder="Logo du club">';
-                    echo '          <button class="btn" type="button">Parcourir...</button>';
+                    echo '   <div class="input-prepend">';
+                    echo '       <div class="controls">';
+                    echo '          <select name="discipline" id="selectDiscipline">';
+                                        $listeTypeTir = TypeTir::liste();
+                                        foreach ($listeTypeTir as $typeTir) {
+                                            echo '             <option value="' . $typeTir->code() . '" >' . $typeTir->nom() . '</option>';
+                                        }
+                    echo '          </select>';
+                    echo '       </div>';
+                    echo '   </div>';
+                    echo '      <div class="input-prepend">';
+                    echo '          <span class="add-on"><i class="icon-tag"></i></span>';
+                    echo '          <input style="height:30px;" class="span5" id="prependedInput" type="text" name="saison" maxlength="100" size="32" value="' . $saison . '" placeholder="Saison">';
                     echo '      </div>';
-                    */
+                    echo '      <div class="input-prepend">';
+                    echo '          <span class="add-on"><i class="icon-tag"></i></span>';
+                    echo '          <input style="height:30px;" class="span5" id="prependedInput" type="text" name="datedebut" maxlength="200" size="70" value="' . Util::JJMMAAAA($datedebut) . '" placeholder="Date de début">';
+                    echo '      </div>';
+                    echo '      <div class="input-prepend">';
+                    echo '          <span class="add-on"><i class="icon-tag"></i></span>';
+                    echo '          <input style="height:30px;" class="span5" id="prependedInput" type="text" name="datefin" maxlength="200" size="70" value="' . Util::JJMMAAAA($datefin) . '" placeholder="Date de fin">';
+                    echo '      </div>';
+                    echo '      <div class="input-prepend">';
+                    echo '          <span class="add-on"><i class="icon-tag"></i></span>';
+                    echo '          <input style="height:30px;" class="span5" id="prependedInput" type="text" name="desc" maxlength="200" size="70" value="' . $desc . '" placeholder="Description">';
+                    echo '      </div>';
                     echo '      <br />';
                     echo '      <button type="submit" class="btn btn-primary">Valider les modifications</button>';
                     echo '  </fieldset>';
                     echo '</form>';
                     echo '<p>Les champs marqu&eacute; d\'un * sont obligatoires.</p>';
-                    
+
                     break;
                     
                 case "supprime" :
@@ -425,6 +418,8 @@
                 echo '  </div>';
                 Concours::importConcours($discipline, $ligue, $dateDebut, $dateFin);
                 break;
+
+
                 /*
             case "afficheListeClubs" :
                 echo '  <div class="page-header">';
