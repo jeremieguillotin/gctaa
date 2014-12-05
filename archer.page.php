@@ -128,7 +128,7 @@ function admin_fiche_archer($wp_gctaa) {
                 echo '<div class="row-fluid">';
 
                 echo '<div class="span2">';
-                echo '<img src="' . $photo . '" class="img-polaroid">';
+                echo '<img src="' . $photo . '" class="class="img-circle"">';
                 echo '</div>';
 
                 echo '<div class="span10">';

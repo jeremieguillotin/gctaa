@@ -169,7 +169,7 @@
                 $strRetour = $strRetour . '<td>'.$club->ville().'</td>';
                 $strRetour = $strRetour . '<td>'.Departement::libelle($club->dept()).' ('.$club->dept().')'.'</td>';
                 $strRetour = $strRetour . '<td>'.Ligue::libelle($club->ligue()).'</td>';
-                $strRetour = $strRetour . '<td><form name="formListeClub" method="post" action="?page=ficheClub"><input type="hidden" name="'.$hidden_field_name.'" value="A"><input type="hidden" name="idclub" maxlength="7" size="7" value="'.$club->idclub().'" /><div class="btn-group"><button class="btn btn-small" type="submit" name="affiche"><i class="icon-user"></i></button><button class="btn btn-small" type="submit" name="modif"><i class="icon-pencil"></i></button><button class="btn btn-small" type="submit" name="supprime" onclick="javascript:check=confirm( \'Effacer ce Club ? \');if(check==false) return false;"><i class="icon-trash"></i></button></div></form></td>';
+                $strRetour = $strRetour . '<td><form name="formListeClub" method="post" action="?page=ficheClub"><input type="hidden" name="'.$hidden_field_name.'" value="A"><input type="hidden" name="idclub" maxlength="7" size="7" value="'.$club->idclub().'" /><div class="btn-group"><button class="btn btn-small" type="submit" name="affiche"><i class="fa fa-users"></i></button><button class="btn btn-small" type="submit" name="modif"><i class="icon-pencil"></i></button><button class="btn btn-small" type="submit" name="supprime" onclick="javascript:check=confirm( \'Effacer ce Club ? \');if(check==false) return false;"><i class="icon-trash"></i></button></div></form></td>';
                 $strRetour = $strRetour . '</tr>';
             }
             

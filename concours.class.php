@@ -167,7 +167,7 @@
                 $strRetour = $strRetour . '<td>'.Util::JJMMAAAA($concours->datedebut()).'</td>';
                 $strRetour = $strRetour . '<td>'.Util::JJMMAAAA($concours->datefin()).'</td>';
                 $strRetour = $strRetour . '<td>'.$concours->desc().'</td>';
-                $strRetour = $strRetour . '<td><form name="formListeConcours" method="post" action="?page=ficheConcours"><input type="hidden" name="'.$hidden_field_name.'" value="A"><input type="hidden" name="idconcours" maxlength="10" size="10" value="'.$concours->idconcours().'" /><div class="btn-group"><button class="btn btn-small" type="submit" name="affiche"><i class="icon-user"></i></button><button class="btn btn-small" type="submit" name="modif"><i class="icon-pencil"></i></button><button class="btn btn-small" type="submit" name="supprime" onclick="javascript:check=confirm( \'Effacer ce concours ? \');if(check==false) return false;"><i class="icon-trash"></i></button></div></form></td>';
+                $strRetour = $strRetour . '<td><form name="formListeConcours" method="post" action="?page=ficheConcours"><input type="hidden" name="'.$hidden_field_name.'" value="A"><input type="hidden" name="idconcours" maxlength="10" size="10" value="'.$concours->idconcours().'" /><div class="btn-group"><button class="btn btn-small" type="submit" name="affiche"><i class="fa fa-bullseye"></i></button><button class="btn btn-small" type="submit" name="modif"><i class="icon-pencil"></i></button><button class="btn btn-small" type="submit" name="supprime" onclick="javascript:check=confirm( \'Effacer ce concours ? \');if(check==false) return false;"><i class="icon-trash"></i></button></div></form></td>';
                 $strRetour = $strRetour . '</tr>';
                 $cpt++;
             }

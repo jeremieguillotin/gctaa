@@ -47,21 +47,21 @@
             
             add_submenu_page('GCTAA', "Vue d'ensemble", "Vue d'ensemble", 'manage_options', 'GCTAA', array(&$this,'admin'));
             
-            add_submenu_page('GCTAA', "Liste des Archers", "Archer", 'manage_options', 'listeArchers', array(&$this,'admin'));
+            add_submenu_page('GCTAA', "Liste des Archers", '<i class="fa fa-user fa-fw"></i>&nbsp; Archer', 'manage_options', 'listeArchers', array(&$this,'admin'));
             add_submenu_page( null  , "Ajout d'un Archer", "Ajout d'un Archer", 'manage_options', 'ajouteArcher', array(&$this,'admin'));
             add_submenu_page( null  , "Fiche d'un Archer", "Fiche d'un Archer", 'manage_options', 'ficheArcher', array(&$this,'admin'));
 
-            add_submenu_page('GCTAA', "Liste des Clubs", "Clubs", 'manage_options', 'listeClubs', array(&$this,'admin'));
+            add_submenu_page('GCTAA', "Liste des Clubs", '<i class="fa fa-users fa-fw"></i>&nbsp; Clubs', 'manage_options', 'listeClubs', array(&$this,'admin'));
             add_submenu_page( null  , "Fiche d'un Club", "Fiche d'un Club", 'manage_options', 'ficheClub', array(&$this,'admin'));
             add_submenu_page( null  , "Importation Club", "Importation Club", 'manage_options', 'importClub', array(&$this,'admin'));
             
-            add_submenu_page('GCTAA', "Liste des Concours", "Concours", 'manage_options', 'listeConcours', array(&$this,'admin'));
+            add_submenu_page('GCTAA', "Liste des Concours", '<i class="fa fa-bullseye fa-fw"></i>&nbsp; Concours', 'manage_options', 'listeConcours', array(&$this,'admin'));
             add_submenu_page( null  , "Fiche d'un Concours", "Fiche d'un Concours", 'manage_options', 'ficheConcours', array(&$this,'admin'));
             add_submenu_page( null  , "Importation Concours", "Importation Concours", 'manage_options', 'importConcours', array(&$this,'admin'));
             
-            add_submenu_page('GCTAA', "Derniers R&eacute;sultats", "R&eacute;sultats", 'manage_options', 'resultat', array(&$this,'admin'));
+            add_submenu_page('GCTAA', "Derniers R&eacute;sultats", '<i class="fa fa-cubes fa-fw"></i>&nbsp; R&eacute;sultats', 'manage_options', 'resultat', array(&$this,'admin'));
             
-            add_submenu_page('GCTAA', "Palmar&egrave;s des Archers du club", "Palmar&egrave;s", 'manage_options', 'palmares', array(&$this,'admin'));
+            add_submenu_page('GCTAA', "Palmar&egrave;s des Archers du club", '<i class="fa fa-trophy fa-fw"></i>&nbsp; Palmar&egrave;s', 'manage_options', 'palmares', array(&$this,'admin'));
         }
         
         function maj_option($name,$value){
@@ -119,12 +119,12 @@
             
             // Gestion des Archers
             echo '<div class="btn-group">';
-            echo '<a class="btn '.$tailleBouton.'" href="?page=listeArchers">Archers</a>';
+            echo '<a class="btn '.$tailleBouton.'" href="?page=listeArchers"><i class="fa fa-user"></i> Archers</a>';
             echo '<button class="btn '.$tailleBouton.' dropdown-toggle" data-toggle="dropdown">';
             echo '<span class="caret"></span>';
             echo '</button>';
             echo '<ul class="dropdown-menu">';
-            echo '<li><a tabindex="-1" href="?page=listeArchers">Liste des Archers</a></li>';
+            echo '<li><a tabindex="-1" href="?page=listeArchers"><i class="fa fa-th-list"></i> Liste des Archers</a></li>';
             echo '<li><a tabindex="-1" href="?page=ajouteArcher">Ajouter un Archer</a></li>';
             echo '<li class="divider"></li>';
             echo '<li><a tabindex="-1" href="#">Inscription concours</a></li>';
@@ -133,31 +133,31 @@
             
             // Gestion des Clubs
             echo '<div class="btn-group">';
-            echo '<a class="btn '.$tailleBouton.' btn-inverse" href="?page=listeClubs">Clubs</a>';
+            echo '<a class="btn '.$tailleBouton.' btn-inverse" href="?page=listeClubs"><i class="fa fa-users"></i> Clubs</a>';
             echo '<button class="btn '.$tailleBouton.' dropdown-toggle btn-inverse " data-toggle="dropdown">';
             echo '<span class="caret"></span>';
             echo '</button>';
             echo '<ul class="dropdown-menu">';
-            echo '<li><a tabindex="-1" href="?page=listeClubs">Liste des Clubs</a></li>';
+            echo '<li><a tabindex="-1" href="?page=listeClubs"><i class="fa fa-th-list"></i> Liste des Clubs</a></li>';
             echo '<li><a tabindex="-1" href="?page=importClub">Importer un Club</a></li>';
             echo '</ul>';
             echo '</div>';
             
             // Gestion des Concours
             echo '<div class="btn-group">';
-            echo '<a class="btn '.$tailleBouton.' btn-primary " href="?page=listeConcours">Concours</a>';
+            echo '<a class="btn '.$tailleBouton.' btn-primary " href="?page=listeConcours"><i class="fa fa-bullseye"></i> Concours</a>';
             echo '<button class="btn '.$tailleBouton.' dropdown-toggle btn-primary " data-toggle="dropdown">';
             echo '<span class="caret"></span>';
             echo '</button>';
             echo '<ul class="dropdown-menu">';
-            echo '<li><a tabindex="-1" href="?page=listeConcours">Liste des Concours</a></li>';
+            echo '<li><a tabindex="-1" href="?page=listeConcours"><i class="fa fa-th-list"></i> Liste des Concours</a></li>';
             echo '<li><a tabindex="-1" href="?page=importConcours">Importer des Concours</a></li>';
             echo '</ul>';
             echo '</div>';
             
             // Gestion des RŽsultats
             echo '<div class="btn-group">';
-            echo '<button class="btn '.$tailleBouton.' btn-danger ">R&eacute;sultats</button>';
+            echo '<button class="btn '.$tailleBouton.' btn-danger "><i class="fa fa-cubes"></i> R&eacute;sultats</button>';
             echo '<button class="btn '.$tailleBouton.' dropdown-toggle btn-danger " data-toggle="dropdown">';
             echo '<span class="caret"></span>';
             echo '</button>';
@@ -170,7 +170,7 @@
             
             // Gestion des palmares
             echo '<div class="btn-group">';
-            echo '<button class="btn '.$tailleBouton.' btn-warning ">Palmar&egrave;s</button>';
+            echo '<button class="btn '.$tailleBouton.' btn-warning "><i class="fa fa-trophy"></i> Palmar&egrave;s</button>';
             echo '<button class="btn '.$tailleBouton.' dropdown-toggle btn-warning " data-toggle="dropdown">';
             echo '<span class="caret"></span>';
             echo '</button>';
@@ -654,8 +654,8 @@ new Control.DatePicker('DATE_FIN', { icon: '../img/calendar.png' , locale: 'fr_F
             include "concours.page.php";
             include "ligue.class.php";
             include "typetir.class.php";
-            wp_enqueue_style('gctaa-css', WP_PLUGIN_URL . '/gctaa/bootstrap/css/bootstrap.css');
-            
+            wp_enqueue_style('gctaa-bs-css', WP_PLUGIN_URL . '/gctaa/bootstrap/css/bootstrap.css');
+            wp_enqueue_style('gctaa-fa-css', WP_PLUGIN_URL . '/gctaa/font-awesome/css/font-awesome.min.css');
         }
     }
     }

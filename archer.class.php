@@ -199,7 +199,7 @@ class Archer {
             $strRetour = $strRetour . '<td>'.$archer->prenom().'</td>';
             $strRetour = $strRetour . '<td>'.Util::JJMMAAAA($archer->date_naissance()).'</td>';
             $strRetour = $strRetour . '<td>'.$archer->email().'</td>';
-            $strRetour = $strRetour . '<td><form name="form3" method="post" action="?page=ficheArcher"><input type="hidden" name="'.$hidden_field_name.'" value="A"><input type="hidden" name="licence" maxlength="7" size="7" value="'.$archer->licence().'" /><div class="btn-group"><button class="btn" type="submit" name="affiche"><i class="icon-user"></i></button><button class="btn" type="submit" name="modif"><i class="icon-pencil"></i></button><button class="btn" type="submit" name="supprime" onclick="javascript:check=confirm( \'Effacer cet Archer ? \');if(check==false) return false;"><i class="icon-trash"></i></button></div></form></td>';
+            $strRetour = $strRetour . '<td><form name="form3" method="post" action="?page=ficheArcher"><input type="hidden" name="'.$hidden_field_name.'" value="A"><input type="hidden" name="licence" maxlength="7" size="7" value="'.$archer->licence().'" /><div class="btn-group"><button class="btn" type="submit" name="affiche"><i class="fa fa-user"></i></button><button class="btn" type="submit" name="modif"><i class="icon-pencil"></i></button><button class="btn" type="submit" name="supprime" onclick="javascript:check=confirm( \'Effacer cet Archer ? \');if(check==false) return false;"><i class="icon-trash"></i></button></div></form></td>';
             $strRetour = $strRetour . '</tr>';
         }
 
