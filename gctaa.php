@@ -119,45 +119,45 @@
             
             // Gestion des Archers
             echo '<div class="btn-group">';
-            echo '<a class="btn '.$tailleBouton.'" href="?page=listeArchers"><i class="fa fa-user"></i> Archers</a>';
+            echo '<a class="btn '.$tailleBouton.'" href="?page=listeArchers"><i class="fa fa-user fa-fw"></i>&nbsp; Archers</a>';
             echo '<button class="btn '.$tailleBouton.' dropdown-toggle" data-toggle="dropdown">';
             echo '<span class="caret"></span>';
             echo '</button>';
             echo '<ul class="dropdown-menu">';
-            echo '<li><a tabindex="-1" href="?page=listeArchers"><i class="fa fa-th-list"></i> Liste des Archers</a></li>';
-            echo '<li><a tabindex="-1" href="?page=ajouteArcher">Ajouter un Archer</a></li>';
+            echo '<li><a tabindex="-1" href="?page=listeArchers"><i class="fa fa-th-list fa-fw"></i>&nbsp; Liste des Archers</a></li>';
+            echo '<li><a tabindex="-1" href="?page=ajouteArcher"><i class="fa fa-plus-square-o fa-fw"></i>&nbsp; Ajouter un Archer</a></li>';
             echo '<li class="divider"></li>';
-            echo '<li><a tabindex="-1" href="#">Inscription concours</a></li>';
+            echo '<li><a tabindex="-1" href="#"><i class="fa fa-pencil-square-o fa-fw"></i>&nbsp; Inscription concours</a></li>';
             echo '</ul>';
             echo '</div>';
             
             // Gestion des Clubs
             echo '<div class="btn-group">';
-            echo '<a class="btn '.$tailleBouton.' btn-inverse" href="?page=listeClubs"><i class="fa fa-users"></i> Clubs</a>';
+            echo '<a class="btn '.$tailleBouton.' btn-inverse" href="?page=listeClubs"><i class="fa fa-users fa-fw"></i>&nbsp; Clubs</a>';
             echo '<button class="btn '.$tailleBouton.' dropdown-toggle btn-inverse " data-toggle="dropdown">';
             echo '<span class="caret"></span>';
             echo '</button>';
             echo '<ul class="dropdown-menu">';
-            echo '<li><a tabindex="-1" href="?page=listeClubs"><i class="fa fa-th-list"></i> Liste des Clubs</a></li>';
-            echo '<li><a tabindex="-1" href="?page=importClub">Importer un Club</a></li>';
+            echo '<li><a tabindex="-1" href="?page=listeClubs"><i class="fa fa-th-list fa-fw"></i>&nbsp; Liste des Clubs</a></li>';
+            echo '<li><a tabindex="-1" href="?page=importClub"><i class="fa fa-cloud-download fa-fw"></i>&nbsp; Importer un Club</a></li>';
             echo '</ul>';
             echo '</div>';
             
             // Gestion des Concours
             echo '<div class="btn-group">';
-            echo '<a class="btn '.$tailleBouton.' btn-primary " href="?page=listeConcours"><i class="fa fa-bullseye"></i> Concours</a>';
+            echo '<a class="btn '.$tailleBouton.' btn-primary " href="?page=listeConcours"><i class="fa fa-bullseye fa-fw"></i>&nbsp;Concours</a>';
             echo '<button class="btn '.$tailleBouton.' dropdown-toggle btn-primary " data-toggle="dropdown">';
             echo '<span class="caret"></span>';
             echo '</button>';
             echo '<ul class="dropdown-menu">';
-            echo '<li><a tabindex="-1" href="?page=listeConcours"><i class="fa fa-th-list"></i> Liste des Concours</a></li>';
-            echo '<li><a tabindex="-1" href="?page=importConcours">Importer des Concours</a></li>';
+            echo '<li><a tabindex="-1" href="?page=listeConcours"><i class="fa fa-th-list fa-fw"></i>&nbsp; Liste des Concours</a></li>';
+            echo '<li><a tabindex="-1" href="?page=importConcours"><i class="fa fa-cloud-download fa-fw"></i>&nbsp; Importer des Concours</a></li>';
             echo '</ul>';
             echo '</div>';
             
             // Gestion des RŽsultats
             echo '<div class="btn-group">';
-            echo '<button class="btn '.$tailleBouton.' btn-danger "><i class="fa fa-cubes"></i> R&eacute;sultats</button>';
+            echo '<button class="btn '.$tailleBouton.' btn-danger "><i class="fa fa-cubes fa-fw"></i>&nbsp; R&eacute;sultats</button>';
             echo '<button class="btn '.$tailleBouton.' dropdown-toggle btn-danger " data-toggle="dropdown">';
             echo '<span class="caret"></span>';
             echo '</button>';
