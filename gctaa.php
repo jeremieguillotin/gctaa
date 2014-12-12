@@ -13,21 +13,21 @@
         public static $DEBUG=true;
         
         function __construct(){
-            add_action('init',array(&$this,'init'));
+            add_action('init', array(&$this,'init'));
             add_action('admin_menu', array(&$this,'admin_menu'));
-            add_action('admin_head',array(&$this,'admin_head'));
+            add_action('admin_head', array(&$this,'admin_head'));
+            add_filter ('the_content', array(&$this,'insert_resultat_article'));
             register_activation_hook( __FILE__, array(&$this,'activate') );
-            //add_filter ('the_content', 'insert_article');
         }
         
-        function insert_article($content) {
+        function insert_resultat_article( $content ) {
             //change $content
             $debut = strpos($content, '[resultat=');
             while  (  $debut  !==  false  )  {
                 $fin = strpos($content, ']');
                 if  (  $fin  !==  false  )  {
-                    $idconcours=substr($content, $debut+10,$fin-$debut-10);
-                    $content = substr($content, 0, $debut).$this->resultat($idconcours).substr($content, $fin+1);
+                    $idConcours=substr($content, $debut+10,$fin-$debut-10);
+                    $content = substr($content, 0, $debut).Resultat::resultats_concours($idConcours).substr($content, $fin+1);
                 }
                 $debut = strpos($content, '[resultat=');
             }
@@ -59,8 +59,9 @@
             add_submenu_page( null  , "Fiche d'un Concours", "Fiche d'un Concours", 'manage_options', 'ficheConcours', array(&$this,'admin'));
             add_submenu_page( null  , "Importation Concours", "Importation Concours", 'manage_options', 'importConcours', array(&$this,'admin'));
             
-            add_submenu_page('GCTAA', "Derniers R&eacute;sultats", '<i class="fa fa-cubes fa-fw"></i>&nbsp; R&eacute;sultats', 'manage_options', 'resultat', array(&$this,'admin'));
-            
+            add_submenu_page('GCTAA', "Derniers R&eacute;sultats", '<i class="fa fa-cubes fa-fw"></i>&nbsp; R&eacute;sultats', 'manage_options', 'afficheResultats', array(&$this,'admin'));
+            add_submenu_page( null  , "Importation R&eacute;sultats", "Importation R&eacute;sultats", 'manage_options', 'importResultats', array(&$this,'admin'));
+
             add_submenu_page('GCTAA', "Palmar&egrave;s des Archers du club", '<i class="fa fa-trophy fa-fw"></i>&nbsp; Palmar&egrave;s', 'manage_options', 'palmares', array(&$this,'admin'));
         }
         
@@ -106,6 +107,12 @@
                     break;
                 case "importConcours" :
                     admin_import_concours($this);
+                    break;
+                case "afficheResultats" :
+                    admin_affiche_resultats($this);
+                    break;
+                case "importResultats" :
+                    admin_import_resultat($this);
                     break;
                 default :
                     $this->admin_accueil();
@@ -157,14 +164,13 @@
             
             // Gestion des RŽsultats
             echo '<div class="btn-group">';
-            echo '<button class="btn '.$tailleBouton.' btn-danger "><i class="fa fa-cubes fa-fw"></i>&nbsp; R&eacute;sultats</button>';
+            echo '<a class="btn '.$tailleBouton.' btn-danger " href="?page=afficheResultats"><i class="fa fa-cubes fa-fw"></i>&nbsp; R&eacute;sultats</a>';
             echo '<button class="btn '.$tailleBouton.' dropdown-toggle btn-danger " data-toggle="dropdown">';
             echo '<span class="caret"></span>';
             echo '</button>';
             echo '<ul class="dropdown-menu">';
-            echo '<li>test 1</li>';
-            echo '<li>test 2</li>';
-            echo '<li>test 3</li>';
+            echo '<li><a tabindex="-1" href="?page=afficheResultats"><i class="fa fa-th-list fa-fw"></i>&nbsp; Liste des R&eacute;sultats</a></li>';
+            echo '<li><a tabindex="-1" href="?page=importResultats"><i class="fa fa-cloud-download fa-fw"></i>&nbsp; Importer des R&eacute;sultats</a></li>';
             echo '</ul>';
             echo '</div>';
             
@@ -325,337 +331,25 @@
         
 	}
     
-        
-        
-        
-        
-        
-    
-    function admin_concours(){
-        $hidden_field_name = 'mt_submit_hidden';
-        ?>
-<div class="wrap" id="gctaa">
-<h2>Gestion de Club :: Gestion des concours</h2>
-<br/>
-<?php if ( $erreur <> "" ) {?>
-<div class="ui-widget">
-<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-<strong>Erreur :</strong> <?php echo $erreur;?></p>
-</div>
-</div>
-<br/>
-<?php }?>
-
-<?php if ( $info <> "" ) {?>
-<div class="ui-widget">
-<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
-<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-<strong>Info : </strong> <?php echo $info;?></p>
-</div>
-</div>
-<br/>
-<?php }?>
-
-
-<div id="tabs">
-<ul>
-<li><a href="#tabs-1">Liste des Concours</a></li>
-<li><a href="#tabs-2">Ajouter un Concours</a></li>
-<li><a href="#tabs-3">Modifier un Concours</a></li>
-</ul>
-
-<!-- Liste des Concours -->
-<div id="tabs-1">
-<?php
-Concours::importConcours();
- //$this->afficheListeConcours(); ?>
-<?php //$this->afficheListeClubs(); ?>
-</div>
-
-<!-- Ajout Concours -->
-<div id="tabs-2">
-<div class="ui-widget">
-<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-<strong>Erreur :</strong> TAF : Ajout Concours</p>
-</div>
-</div>
-<br/>
-<h3>Import des concours</h3>
-<form name="form1" method="post" action="">
-<input type="hidden" name="<?php echo $hidden_field_name; ?>" value="I">
-<select name="discipline">
-<?php
-    
-    $listeTypeTir = TypeTir::liste();
-    foreach ($listeTypeTir as $typeTir) {
-        echo '<option value="' . $typeTir->code() . '" >' . $typeTir->nom() . '</option>';
-    }
-    
-    ?>
-</select>
-<br />
-<select name="LIGUE">
-<option value="">TOUTES</option>
-
-<?php
-    
-    $listeLigue = Ligue::liste();
-    foreach ($listeLigue as $ligue) {
-        echo '<option value="' . $ligue->idffta() . '" >' . $ligue->nom() . '</option>';
-    }
-    
-    ?>
-</select>
-<br />
-Date de début:<input type="text" id="DATE_DEB" name="DATE_DEB" value="29/11/2012" class="datepicker" size="10" maxlength="10"></td>
-Date de fin:<input type="text" id="DATE_FIN" name="DATE_FIN" value="31/12/2012" class="datepicker" size="10" maxlength="10"></td>
-<script>
-new Control.DatePicker('DATE_DEB', { icon: '../img/calendar.png' , locale: 'fr_FR'});
-new Control.DatePicker('DATE_FIN', { icon: '../img/calendar.png' , locale: 'fr_FR' });
-</script>
-<!-- LIGUE=711&DISCIP=S&DATE_DEB=01/09/2012&DATE_FIN=31/08/2013 -->
-<p class="submit">
-<input type="submit" name="Ajouter cet archer" class="button-primary" value="Importer ces concours" />
-</p>
-</form>
-
-</div>
-
-<!-- Modif Concours -->
-<div id="tabs-3">
-<div class="ui-widget">
-<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-<strong>Erreur :</strong> TAF : Modif Concours</p>
-</div>
-</div>
-<br/>
-</div>
-
-</div>
-</div>
-<?php
-    }
-    
-    function afficheListeConcours() {
-        $test=true;
-        // URL à ouvrir
-        $url = 'http://ffta-public.cvf.fr/servlet/ResAffichCalend?LIGUE=711&DISCIP=S&DATE_DEB=01/02/2012&DATE_FIN=31/03/2013';
-        $url = 'http://127.0.0.1:8080/wordpress/wp-content/plugins/gctaa/testImportConcours.html';
-        $file = fopen ($url , "r");
-        $nb = 0;
-        echo '<table class="widefat" cellspacing="0">';
-		echo '	<thead>';
-		echo '	<tr>';
-		echo '		<th scope="col" >Id</th>';
-        echo '		<th scope="col" >Saison</th>';
-		echo '		<th scope="col" >Debut</th>';
-		echo '		<th scope="col" >Fin</th>';
-		echo '		<th scope="col" >Lieu</th>';
-		echo '		<th scope="col" >Particularit&eacute;</th>';
-		echo '	</tr>';
-		echo '	</thead>';
-		echo '	<tbody>';
-        
-        while (!feof ($file)) {
-            $line = fgets ($file);
-            if(Util::stripos($line,'<td width="20%" valign="top">') != 0)
-            {
-                // DATE
-                $line = fgets ($file);
-                $line = trim(str_replace('<br>',' ',$line));
-                if(Util::stripos($line,'au') != 0) {
-                    $date_debut = substr($line,0,10);
-                    $date_fin = substr($line,14,25);
-                } else {
-                    $date_debut = substr($line,0,10);
-                    $date_fin = $date_debut;
-                }
-                
-                // LIEU
-                for ($i = 1; $i <= 4; $i++) {
-                    $line = fgets ($file);
-                }
-                $badge = '';
-                if(Util::stripos($line,'Target') != 0)
-                {
-                    $line = fgets ($file, 500);
-                    $line = fgets ($file, 500);
-                    $badge = 'FITA Target';
-                }
-                if(Util::stripos($line,'Arrow Head') != 0)
-                {
-                    $line = fgets ($file, 500);
-                    $line = fgets ($file, 500);
-                    $badge = 'Arrow Head';
-                }
-                if(Util::stripos($line,'D2') != 0)
-                {
-                    $line = fgets ($file, 500);
-                    $line = fgets ($file, 500);
-                    $badge = 'D2';
-                }
-                if(Util::stripos($line,'DR') != 0)
-                {
-                    $line = fgets ($file, 500);
-                    $line = fgets ($file, 500);
-                    $badge = 'DR';
-                }
-                if(Util::stripos($line,'Star') != 0)
-                {
-                    $line = fgets ($file, 500);
-                    $line = fgets ($file, 500);
-                    $badge = 'FITA Star';
-                }
-                if(Util::stripos($line,'Résultats non communiqués') != 0) {
-                    $line = fgets ($file);
-                }
-                $lieu=trim(str_replace('<br>',' ',str_replace('</b>',' ',str_replace('<b>',' ',$line))));
-                
-                // SAISON
-                $line = fgets ($file);
-                $line = fgets ($file);
-                $saison = trim(str_replace('<i>Individuel ','', str_replace('</i>','', $line)));
-                
-                // CHAMPIONNAT ?
-                $line = fgets ($file);
-                if( trim($line) != "") {
-                    $desc=trim(str_replace('<br>',' - ', str_replace('&nbsp;','', $line)));
-                } else {
-                    $desc="";
-                }
-                
-                // IDCONCOURS
-                for ($i = 1; $i <= 15; $i++) {
-                    $line = fgets ($file);
-                    if(Util::stripos($line,'javascript:FicheEpr') != 0) {
-                        break;
-                    }
-                }
-                $idConcours=trim(str_replace('\');"><img src="../img/Voir.gif" width="11" height="14" border="0" alt="Informations concours"></a>',' ',str_replace('<a href="javascript:FicheEpr(\'',' ',$line)));
-                
-                
-                
-                echo '<tr><td>' . $idConcours . '</td><td>'.$saison.'</td><td>' . $date_debut . '</td><td>' . $date_fin . '</td><td>' . $lieu . '</td><td>'.$desc.'</td></tr>';
-                /*
-                 
-                 
-                 
-                 $line = fgets ($file, 500);
-                 $line = fgets ($file, 500);
-                 $line = fgets ($file, 500);
-                 $line = fgets ($file, 500);
-                 // Sauter les target et arrow head
-                 
-                 
-                 // Lieu
-                 $line = str_replace('<b>','',$line);
-                 $line = str_replace('</b>','',$line);
-                 $line = str_replace('<br>','',$line);
-                 $line = trim($line);
-                 $Lieu  = str_replace(',','',$line);
-                 echo '<td>' . $Lieu . '</td>';
-                 
-                 // Département
-                 $line = fgets ($file, 500);
-                 $line = trim($line);
-                 $separateur = Util::stripos($line,'-');
-                 if($separateur == 8)
-                 {
-                 $departement = substr($line,2,2);
-                 $club = substr($line,10);
-                 $noclub = substr($line,0,7);
-                 }
-                 else
-                 {
-                 $departement = '';
-                 $club = substr($line,5);
-                 $noclub = '';
-                 }
-                 $Dept = $ndepart[$departement];
-                 echo '<td>' . $departement . ' - ' . $Dept . '</td><td>' . $noclub . '</td><td>' . $nom[$noclub] . '</td>';
-                 
-                 // Particularité
-                 $line = fgets ($file, 500);
-                 $line = fgets ($file, 500);
-                 $line = trim($line);
-                 $Description = '';
-                 if(Util::stripos($line,'<br>') != 0)
-                 {
-                 $Description = substr($line,0,Util::stripos($line,'<br>'));
-                 }
-                 else
-                 {
-                 $Description = '';
-                 }
-                 if(Util::stripos($Description,'mental') != 0)
-                 {
-                 $Description .= ' de ' . $ndepart[$departement];
-                 }
-                 if(Util::stripos($Description,'gional') != 0)
-                 {
-                 $Description = 'Championnat de Ligue';
-                 }
-                 $Description .= $badge;
-                 $Description = str_replace('dé','D&eacute;',$Description);
-                 echo '<td>' . $Description . '&nbsp;</td>';
-                 
-                 // Insertion
-                 if(!$test)
-                 {
-                 $sql = 'insert into ' . $table_concours . ' (DateDebut,DateFin,Lieu,NoClub,Dept,Description,TypeConcours) values (' .
-                 '"' . $DateDebut . '","' . $DateFin . '","' . addslashes($Lieu) . '","' . $noclub . '","' . addslashes($Dept) . '","' . addslashes($Description) .
-                 '","' . $TypeConcours . '")';
-                 $Result=@mysql_query($sql,$db_id) ;
-                 if ($Result)
-                 {
-                 $message = 'Insertion r&eacute;ussie.';
-                 }
-                 else
-                 {
-                 $message = 'Echec de l\'insertion: ' . $sql;
-                 }
-                 
-                 }
-                 else
-                 {
-                 $message = '&nbsp;';
-                 }
-                 echo '<td>' . $message . '</td>';
-                 echo '</tr>';
-                 */
-                
-            }
-        }
-        echo '</tbody></table>';
-        fclose($file);
-        
-        
-    }
-    
-    
-    
-        
-    
-    
-    function init(){
+    function init(){        
+        include "gctaa.class.php";
+        include "archer.class.php";
+        include "archer.page.php";
+        include "depart.class.php";
+        include "departement.class.php";
+        include "categorie.class.php";
+        include "club.class.php";
+        include "club.page.php";
+        include "concours.class.php";
+        include "concours.page.php";
+        include "ligue.class.php";
+        include "resultat.page.php";
+        include "resultat.class.php";
+        include "typetir.class.php";
+        wp_enqueue_style('gctaa-fa-css', WP_PLUGIN_URL . '/gctaa/font-awesome/css/font-awesome.min.css');
         if(is_admin()) {
-            include "gctaa.class.php";
-            include "archer.class.php";
-            include "archer.page.php";
-            include "depart.class.php";
-            include "departement.class.php";
-            include "categorie.class.php";
-            include "club.class.php";
-            include "club.page.php";
-            include "concours.class.php";
-            include "concours.page.php";
-            include "ligue.class.php";
-            include "typetir.class.php";
             wp_enqueue_style('gctaa-bs-css', WP_PLUGIN_URL . '/gctaa/bootstrap/css/bootstrap.css');
-            wp_enqueue_style('gctaa-fa-css', WP_PLUGIN_URL . '/gctaa/font-awesome/css/font-awesome.min.css');
+            
         }
     }
     }

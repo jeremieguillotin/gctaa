@@ -58,6 +58,47 @@
 			}
 			return $listeCategorie;
         }
+
+        public static function varResAfficheEpreuve($categorie) {
+
+            // ARME
+            if(Util::stripos($categorie,'CL') != 0) {
+                $arme = "C";
+            } else if(Util::stripos($categorie,'CO') != 0) {
+                $arme = "P";
+            } else if(Util::stripos($categorie,'BB') != 0) {
+                $arme = "B";
+            }
+
+            // SEXE
+            if(Util::stripos($categorie,'F') != 0) {
+                $sexe = "F";
+            } else {
+                $sexe = "H";
+            }
+
+            // CATAGE
+            if(Util::stripos($categorie,'B') === 0) {
+                $catage ="B";
+            } else if(Util::stripos($categorie,'M') ===0) {
+                $catage ="M";
+            } else if(Util::stripos($categorie,'J') === 0) {
+                $catage ="J";
+            } else if(Util::stripos($categorie,'V') === 1) {
+                $catage ="SV";
+            } else if(Util::stripos($categorie,'S') === 0) {
+                $catage ="S";
+            } else if(Util::stripos($categorie,'V') === 0) {
+                $catage ="V";
+            } else if(Util::stripos($categorie,'C') === 0) {
+                $catage ="C";
+            }
+
+            return array( 'SEXE' => $sexe,
+                'ARME' => $arme,
+                'CATAGE' => $catage
+            );
+        }
         
     }
 ?>

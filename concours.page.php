@@ -5,6 +5,19 @@
      ***                                                                                     ***
      *******************************************************************************************/
     
+
+    function test_resultat($wp_gctaa){
+        echo '<div class="wrap" id="gctaa">';
+        $wp_gctaa->admin_affichemenupage("btn-small");
+        echo '  <div class="page-header">';
+        echo '      <h1>Concours <small>Liste des Concours</small></h1>';
+        echo '  </div>';
+        Concours::resultatConcours('35696');
+        echo '</div>';
+    }
+
+
+
     function admin_liste_concours($wp_gctaa){
         echo '<div class="wrap" id="gctaa">';
         $wp_gctaa->admin_affichemenupage("btn-small");

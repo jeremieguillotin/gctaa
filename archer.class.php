@@ -82,6 +82,52 @@ class Archer {
         return $listeArcher;
     }
 
+    public static function listeActif($saison) {
+        global $wpdb;
+
+        $sql = "SELECT ar_licence, ar_nom, ar_prenom, ar_date_naissance, ar_email, ar_photo FROM " . $wpdb->prefix . "gctaa_archers JOIN " . $wpdb->prefix . "gctaa_archers_categ  ON ar_licence = ac_licence JOIN " . $wpdb->prefix . "gctaa_categories  ON ac_categorie = ct_categorie AND ct_saison = $saison ORDER BY ac_categorie";
+
+        $donneesArchers = $wpdb->get_results($sql, ARRAY_A);
+
+        $listeArcher = array();
+        $cpt=-1;
+
+        if ( $donneesArchers )
+        {
+            foreach ( $donneesArchers as $donneesArcher )
+            {
+                $cpt++;
+                $archer = new Archer($donneesArcher);
+                $listeArcher[$cpt] = $archer;
+            }
+        }
+        else
+        {
+            echo 'Aucun archer : '.$sql;
+        }
+
+        return $listeArcher;
+    }
+
+public static function listeCategArcherActif($saison) {
+        global $wpdb;
+
+        $sql = "SELECT ar_licence, ar_nom, ar_prenom, ac_categorie, ct_initiales FROM " . $wpdb->prefix . "gctaa_archers JOIN " . $wpdb->prefix . "gctaa_archers_categ  ON ar_licence = ac_licence JOIN " . $wpdb->prefix . "gctaa_categories  ON ac_categorie = ct_categorie AND ct_saison = $saison ORDER BY ac_categorie";
+
+        $categArcherActifs = $wpdb->get_results($sql, ARRAY_A);
+
+        return $categArcherActifs;
+    }
+
+
+
+
+
+
+
+
+
+
     public static function listeCategories($licence) {
         global $wpdb;
         $sql = "SELECT ct_categorie, tt_nom, ct_saison, ct_nom, ct_initiales FROM " . $wpdb->prefix . "gctaa_categories, " . $wpdb->prefix . "gctaa_archers_categ, " . $wpdb->prefix . "gctaa_typetir WHERE ct_categorie = ac_categorie and tt_code = ct_type and ac_licence = '$licence' order by ct_saison DESC, ct_type";
