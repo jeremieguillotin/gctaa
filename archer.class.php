@@ -227,6 +227,7 @@ public static function listeCategArcherActif($saison) {
         $strRetour = $strRetour . '<table class="table table-bordered table-striped table-condensed table-hover">';
         $strRetour = $strRetour . '	<thead>';
         $strRetour = $strRetour . '	<tr>';
+        $strRetour = $strRetour . '     <th><i class="icon-user"></i></th>';
         $strRetour = $strRetour . '		<th><i class="icon-tag"></i> Licence</th>';
         $strRetour = $strRetour . '		<th colspan="2"><i class="icon-user"></i> Nom Pr&eacute;nom</th>';
         $strRetour = $strRetour . '		<th><i class="icon-calendar"></i> Date de Naissance</th>';
@@ -240,6 +241,11 @@ public static function listeCategArcherActif($saison) {
 
         foreach ($listeArcher as $archer) {
             $strRetour = $strRetour . '<tr>';
+            if ($archer->photo() == '') {
+                $strRetour = $strRetour . '<td class="text-center"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-user fa-stack-1x fa-inverse"></i></span></td>';
+            } else {
+                $strRetour = $strRetour . '<td><p class="text-center"><img src="' . $archer->photo() . '" width="50px"></p></td>';
+            }
             $strRetour = $strRetour . '<td>'.$archer->licence().'</td>';
             $strRetour = $strRetour . '<td>'.$archer->nom().'</td>';
             $strRetour = $strRetour . '<td>'.$archer->prenom().'</td>';

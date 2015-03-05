@@ -21,6 +21,11 @@
         public static function stripos($haystack, $needle, $offset = 0) {
             return strpos(strtolower($haystack), strtolower($needle), $offset);
         }
+
+        public static function Majuscule($string) { 
+              return strtr(strtoupper($string), array( "à" => "À", "è" => "È", "ì" => "Ì", "ò" => "Ò", "ù" => "Ù", "á" => "Á", "é" => "É", "í" => "Í", "ó" => "Ó", "ú" => "Ú", "â" => "Â", "ê" => "Ê", "î" => "Î", "ô" => "Ô", "û" => "Û", "ç" => "Ç" )); 
+        } 
+
     }
     
 ?>

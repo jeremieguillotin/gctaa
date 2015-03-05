@@ -173,7 +173,7 @@
             $resultatHTML = '';
             if ($concours->resultats() != 0) {
                 //Si il y a des resultat 
-                $resultatHTML .= '<h3>Résultats du concours de ' . Club::libelle($concours->idclub()) .' du '.$concours->datedebut() . '</h3>';
+                $resultatHTML .= '<h3>Résultats du concours de ' . Club::libelleVille($concours->idclub()) .' du '.Util::JJMMAAAA($concours->datedebut()) . '</h3>';
 
                 $resultatsConcours = Resultat::resultatConcours($concours->idconcours()); 
 
@@ -203,7 +203,7 @@
                             $categoriePrecedente = $categorie;
                             $resultatHTML .= '<table class="table table-bordered table-striped table-condensed table-hover"> ';
                             $resultatHTML .= '<thead>';
-                            $resultatHTML .= '<tr><td class="hed" colspan="5" align="left"><b>'.strtoupper($categorie).'</b></td></tr>';
+                            $resultatHTML .= '<tr><td class="hed" colspan="5" align="left"><b>'.Util::Majuscule($categorie).'</b></td></tr>';
                             $resultatHTML .= '<tr><td width="50">Clt</td><td width="400">Nom</td><td width="50">Score</td></tr>';
                             $resultatHTML .= '</thead>';
                             $resultatHTML .= '<tbody>';

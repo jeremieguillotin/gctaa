@@ -109,7 +109,42 @@
             if (!$result) {
                 return $idclub;
             } else {
-                return $result['cl_nom'] . " (" . $result['cl_ville'] . ")";
+                return $result['cl_nom'] . " (" . ucwords(strtolower($result['cl_ville'])) . ")";
+            }
+        }
+
+        public static function libelleVille($idclub){
+            global $wpdb;
+
+            $sql = "SELECT cl_ville FROM " . $wpdb->prefix . "gctaa_clubs WHERE cl_idclub = '".$idclub."'";
+            
+            // on envoie la requÍte
+            $result = $wpdb->get_row($sql, ARRAY_A);
+            
+            if (!$result) {
+                return $idclub;
+            } else {
+                return ucwords(strtolower($result['cl_ville']));
+            }
+        }
+
+        public static function afficheLogo($idclub){
+            global $wpdb;
+
+            $sql = "SELECT cl_logo FROM " . $wpdb->prefix . "gctaa_clubs WHERE cl_idclub = '".$idclub."'";
+            
+            // on envoie la requÍte
+            $result = $wpdb->get_row($sql, ARRAY_A);
+            
+            if (!$result) {
+                return $idclub;
+            } else {
+                if ($club->logo() == 'nc.png') {
+                    $strRetour = '<span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-users fa-stack-1x fa-inverse"></i></span>';
+                } else {
+                    $strRetour = '<img src="' . $club->logo() . '" width="50px">';
+                }
+                return $strRetour;
             }
         }
         
@@ -151,6 +186,7 @@
             $strRetour = '<table class="table table-bordered table-striped table-condensed table-hover">';
             $strRetour = $strRetour . '	<thead>';
             $strRetour = $strRetour . '	<tr>';
+            $strRetour = $strRetour . '     <th>Logo</th>';
             $strRetour = $strRetour . '		<th>ID Club</th>';
             $strRetour = $strRetour . '		<th>Nom</th>';
             $strRetour = $strRetour . '		<th>Ville</th>';
@@ -164,6 +200,12 @@
             $cpt=0;
             foreach ($listeClub as $club) {
                 $strRetour = $strRetour . '<tr>';
+                if ($club->logo() == 'nc.png') {
+                    $strRetour = $strRetour . '<td class="text-center"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-users fa-stack-1x fa-inverse"></i></span></td>';
+                } else {
+                    $strRetour = $strRetour . '<td><p class="text-center"><img src="' . $club->logo() . '" width="50px"></p></td>';
+                }
+                
                 $strRetour = $strRetour . '<td>'.$club->idclub().'</td>';
                 $strRetour = $strRetour . '<td>'.$club->nom().'</td>';
                 $strRetour = $strRetour . '<td>'.$club->ville().'</td>';

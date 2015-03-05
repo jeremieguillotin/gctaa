@@ -123,7 +123,7 @@
             $sql = "SELECT  co_idconcours, co_idclub, co_type, co_saison, co_datedebut, co_datefin, co_desc, co_resultats FROM " . $wpdb->prefix . "gctaa_concours ORDER BY co_datedebut";
             // on envoie la requête
             $donneesConcours = $wpdb->get_results($sql, ARRAY_A);
-			$listeConcour = array();
+			$listeConcours = array();
 			$cpt = -1;
             if ( $donneesConcours )
 			{
@@ -138,6 +138,29 @@
 			{
 				 echo 'erreur';
 			}
+            return $listeConcours;
+        }
+
+        public static function listeAvecResultat() {
+            global $wpdb;
+            $sql = "SELECT  co_idconcours, co_idclub, co_type, co_saison, co_datedebut, co_datefin, co_desc, co_resultats FROM " . $wpdb->prefix . "gctaa_concours WHERE co_resultats = 1 ORDER BY co_datedebut";
+            // on envoie la requête
+            $donneesConcours = $wpdb->get_results($sql, ARRAY_A);
+            $listeConcours = array();
+            $cpt = -1;
+            if ( $donneesConcours )
+            {
+                foreach ( $donneesConcours as $donneesConcour )
+                {
+                    $cpt++;
+                    $concours = new Concours($donneesConcour);
+                    $listeConcours[$cpt] = $concours;
+                }   
+            }
+            else
+            {
+                $listeConcours =null;
+            }
             return $listeConcours;
         }
         

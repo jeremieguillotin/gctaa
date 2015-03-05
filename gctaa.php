@@ -18,22 +18,92 @@
             add_action('admin_head', array(&$this,'admin_head'));
             add_filter ('the_content', array(&$this,'insert_resultat_article'));
             register_activation_hook( __FILE__, array(&$this,'activate') );
+            // init process for button control
+            add_action( 'admin_init', array (&$this, 'addButtons' ) );
+            add_action( 'wp_ajax_boutonGctaa_shortcodePrinter', array( &$this, 'wp_ajax_fct' ) );
         }
         
         function insert_resultat_article( $content ) {
             //change $content
-            $debut = strpos($content, '[resultat=');
+            $debut = strpos($content, '[GCTAA-resultat=');
             while  (  $debut  !==  false  )  {
                 $fin = strpos($content, ']');
                 if  (  $fin  !==  false  )  {
-                    $idConcours=substr($content, $debut+10,$fin-$debut-10);
+                    $idConcours=substr($content, $debut+16,$fin-$debut-16);
                     $content = substr($content, 0, $debut).Resultat::resultats_concours($idConcours).substr($content, $fin+1);
                 }
-                $debut = strpos($content, '[resultat=');
+                $debut = strpos($content, '[GCTAA-resultat=');
             }
             return  $content;
         }
         
+        /*
+        * The content of the javascript popin for the insertion
+        *
+        */
+        function wp_ajax_fct(){
+            echo '<div class="container-fluid">';
+            echo '<div class="row">';
+            echo '<div class="col-md-12">';
+            echo "<h2>GCTAA - Afficher les r&eacute;sultats d'un concours</h2>";
+            echo '</div>';
+            echo '<div class="col-md-12">';
+            echo '<form>';
+            $listeConcours = Concours::listeAvecResultat();
+
+            if($listeConcours != null) {
+                echo '<div class="form-group">';
+                echo '<label for="GCTAA_IdConcours">Concours</label>';
+                echo '<select name="GCTAA_IdConcours" id="GCTAA_IdConcours" class="form-control" style="width:100%">';
+                foreach ($listeConcours as $concours) {
+                    echo '<option class="level-0" value="' . $concours->idconcours() . '">'.Club::libelle($concours->idclub()). ' du ' .Util::JJMMAAAA($concours->datedebut()).'</option>';
+                }
+                echo '</select>';
+                 echo '</div>';
+            }
+            echo '</div>';
+            echo '<div class="col-md-12">';
+            echo '<input name="mcb_button" id="mcb_button" type="submit" class="btn btn-primary" value="Ins&eacute;rer les r&eacute;sultats">';
+            echo '</div>';
+            echo '</form>';
+            echo '</div>';
+            echo '</div>';
+            die();
+        }
+
+        /*
+        * Add buttons to the tiymce bar
+        */
+        function addButtons() {
+            // Don't bother doing this stuff if the current user lacks permissions
+            if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') )
+                return false;
+        
+            if ( get_user_option('rich_editing') == 'true') {
+                add_filter('mce_external_plugins', array (&$this,'addScriptTinymce' ) );
+                add_filter('mce_buttons', array (&$this,'registerTheButton' ) );
+            }
+        }
+
+        /*
+        * Add buttons to the tiymce bar
+        *
+        */
+        function registerTheButton($buttons) {
+            array_push($buttons, "|", "boutonGctaa");
+            return $buttons;
+        }
+
+        /*
+        * Load the custom js for the tinymce button
+        *
+
+        */
+        function addScriptTinymce($plugin_array) {
+            $plugin_array['boutonGctaa'] = WP_PLUGIN_URL . '/gctaa/js/tinymce.js';
+            return $plugin_array;
+        }
+
         function activate() {
             include "db.class.php";
             Db::createBDD();
@@ -43,7 +113,7 @@
         
         function admin_menu(){
             
-            add_menu_page("Tir &agrave; l'arc", "Tir &agrave; l'arc", 'manage_options', 'GCTAA', array(&$this,'admin'), plugins_url('gctaa/images/gctaa-ico.png'));
+            add_menu_page("Tir &agrave; l'arc", "Tir &agrave; l'arc", 'manage_options', 'GCTAA', array(&$this,'admin'), plugins_url('gctaa/js/img/boutonGctaa.png'));//images/gctaa-ico.png'));
             
             add_submenu_page('GCTAA', "Vue d'ensemble", "Vue d'ensemble", 'manage_options', 'GCTAA', array(&$this,'admin'));
             
